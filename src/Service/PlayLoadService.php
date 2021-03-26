@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Event\CommandEvent;
+use App\Service\Timetable\TimetableService;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use TelegramBot\Api\Types\Update;
@@ -54,6 +55,17 @@ class PlayLoadService
                             )
                         );
                     }
+                }
+            } else {
+                if (in_array(trim($message->getText()), TimetableService::PROMOTIONS)) {
+                    $this->dispatcher->dispatch(
+                        new CommandEvent(
+                            '/horaire',
+                            $message->getText(),
+                            (string)$message->getChat()->getId(),
+                            (string)$message->getMessageId()
+                        )
+                    );
                 }
             }
         }
