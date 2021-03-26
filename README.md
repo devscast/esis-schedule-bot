@@ -22,6 +22,8 @@ L'horaire de cours est mis à jour chaque semaine, pour cela le bot doit obtenir
 distribuées en temps réels, pour cela il faudra créer une tâche CRON pour chaque dimanche soir en appelant la commande
 suivant
 
+CRON : **0 0 * * SUN**
+
 ```bash
 php bin/console bot:fetch-timetable
 ```
