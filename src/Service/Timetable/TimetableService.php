@@ -74,8 +74,9 @@ class TimetableService
     public function getTimetableDocument(string $promotion): ?string
     {
         if (mb_strlen($promotion) !== 0) {
-            $file = $this->root . "HORAIRE_{$promotion}";
-            if (in_array($promotion, self::PROMOTIONS)) {
+            $promotion = $promotion === 'PREPA_B' ? 'PREPA_%20B' : $promotion; // because of esis website typo
+            $file = $this->root . "HORAIRE_{$promotion}.pdf";
+            if (in_array($promotion, self::PROMOTIONS) || $promotion === 'PREPA_%20B') {
                 if (file_exists($file)) {
                     return $file;
                 }
