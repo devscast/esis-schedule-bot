@@ -56,6 +56,7 @@ class BotTelegramWebhookCommand extends Command
         $url = $url === null ? $_ENV['TELEGRAM_WEBHOOK_URL'] : $url;
 
         try {
+            $this->api->deleteWebhook();
             $this->api->setWebhook($url);
             $io->success("webhook {$url}");
         } catch (Exception $e) {
