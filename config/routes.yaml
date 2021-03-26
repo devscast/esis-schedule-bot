@@ -3,3 +3,6 @@ webhook:
     controller: App\Controller\WebhookController::index
     methods:
         - POST
+index:
+    path: /
+    controller: App\Controller\MainController::index

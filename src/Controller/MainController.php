@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -13,12 +13,11 @@ use Symfony\Component\HttpFoundation\Response;
 class MainController
 {
     /**
-     * @param Request $request
      * @return Response
      * @author bernard-ng <ngandubernard@gmail.com>
      */
-    public function index(Request $request): Response
+    public function index(): Response
     {
-        return new Response(null, Response::HTTP_OK);
+        return new RedirectResponse("https://t.me/EsisHoraireBot", Response::HTTP_MOVED_PERMANENTLY);
     }
 }

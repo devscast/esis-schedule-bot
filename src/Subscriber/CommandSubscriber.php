@@ -15,7 +15,9 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\InvalidArgumentException;
+use TelegramBot\Api\Types\Inline\InlineKeyboardMarkup;
 use TelegramBot\Api\Types\ReplyKeyboardMarkup;
+use TelegramBot\Api\Types\ReplyKeyboardRemove;
 
 /**
  * Class CommandSubscriber
@@ -61,6 +63,7 @@ class CommandSubscriber implements EventSubscriberInterface
     {
         try {
             switch ($event->getCommand()) {
+                case '/horaire@EsisHoraireBot':
                 case '/horaire':
                     try {
                         $file = $this->timetable->getTimetableDocument($event->getArgument());
@@ -72,9 +75,16 @@ class CommandSubscriber implements EventSubscriberInterface
                     }
                     break;
 
+                case '/start@EsisHoraireBot':
                 case '/start':
-                    $keyboard = new ReplyKeyboardMarkup([TimetableService::PROMOTIONS], true);
+                    $keyboard = new ReplyKeyboardMarkup(TimetableService::KEYBOARD_MAKEUP, false);
                     $this->api->sendMessage($event->getChatId(), "Horaire Esis Salama Disponible", null, false, null, $keyboard);
+                    break;
+
+                case '/removeKeyboard@EsisHoraireBot':
+                case '/removeKeyboard':
+                    $keyboard = new ReplyKeyboardRemove();
+                    $this->api->sendMessage($event->getChatId(), null, null, false, null, $keyboard);
                     break;
 
                 default:
