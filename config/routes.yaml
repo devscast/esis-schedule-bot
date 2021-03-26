@@ -1,0 +1,5 @@
+webhook:
+    path: /webhook/telegram
+    controller: App\Controller\WebhookController::index
+    methods:
+        - POST
