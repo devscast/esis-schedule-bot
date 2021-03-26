@@ -31,4 +31,4 @@ services:
     # please note that last definitions always *replace* previous ones
     TelegramBot\Api\BotApi:
         arguments:
-            - '%env(resolve:TELEGRAM_BOT_TOKEN))%'
+            - '%env(resolve:TELEGRAM_BOT_TOKEN)%'
