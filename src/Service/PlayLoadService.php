@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Event\CommandEvent;
-use App\Service\Timetable\TimetableService;
+use App\Service\Timetable\PromotionService;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use TelegramBot\Api\Types\Update;
@@ -30,6 +30,7 @@ class PlayLoadService
     }
 
     /**
+     * Process Telegram webhook event and dispatch internal event
      * @param Request $request
      * @author bernard-ng <ngandubernard@gmail.com>
      */
@@ -45,27 +46,13 @@ class PlayLoadService
                     if ($entity->getType() === 'bot_command') {
                         $command = trim(substr($message->getText(), $entity->getOffset(), $entity->getLength()));
                         $argument = trim(str_replace($command, "", $message->getText()));
-
-                        $this->dispatcher->dispatch(
-                            new CommandEvent(
-                                $command,
-                                $argument,
-                                (string)$message->getChat()->getId(),
-                                (string)$message->getMessageId()
-                            )
-                        );
+                        $this->dispatcher->dispatch(new CommandEvent($message, $command, $argument));
                     }
                 }
             } else {
-                if (in_array(trim($message->getText()), TimetableService::PROMOTIONS)) {
-                    $this->dispatcher->dispatch(
-                        new CommandEvent(
-                            '/horaire',
-                            $message->getText(),
-                            (string)$message->getChat()->getId(),
-                            (string)$message->getMessageId()
-                        )
-                    );
+                $argument = PromotionService::fromFriendlyAbbr($message->getText());
+                if ($argument == !null) {
+                    $this->dispatcher->dispatch(new CommandEvent($message, '/horaire', $argument));
                 }
             }
         }

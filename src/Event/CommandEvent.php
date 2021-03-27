@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Event;
 
+use TelegramBot\Api\Types\Message;
+
 /**
  * Class CommandEvent
  * @package App\Event
@@ -12,24 +14,21 @@ namespace App\Event;
 class CommandEvent
 {
     private string $command;
-    private string $argument;
-    private string $chatId;
-    private string $messageId;
+    private ?string $argument;
+    private Message $message;
 
     /**
-     * CommandEvent constructor.
+     * CommandEvent constructor
+     * @param Message $message .
      * @param string $command
-     * @param string $argument
-     * @param string $chatId
-     * @param string $messageId
+     * @param ?string $argument
      * @author bernard-ng <ngandubernard@gmail.com>
      */
-    public function __construct(string $command, string $argument, string $chatId, string $messageId)
+    public function __construct(Message $message, string $command, ?string $argument = null)
     {
+        $this->message = $message;
         $this->command = $command;
         $this->argument = $argument;
-        $this->chatId = $chatId;
-        $this->messageId = $messageId;
     }
 
     /**
@@ -42,29 +41,20 @@ class CommandEvent
     }
 
     /**
-     * @return string
+     * @return null|string
      * @author bernard-ng <ngandubernard@gmail.com>
      */
-    public function getArgument(): string
+    public function getArgument(): ?string
     {
         return $this->argument;
     }
 
     /**
-     * @return string
+     * @return Message
      * @author bernard-ng <ngandubernard@gmail.com>
      */
-    public function getChatId(): string
+    public function getMessage(): Message
     {
-        return $this->chatId;
-    }
-
-    /**
-     * @return string
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
-    public function getMessageId(): string
-    {
-        return $this->messageId;
+        return $this->message;
     }
 }

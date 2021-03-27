@@ -19,39 +19,6 @@ class TimetableService
 {
     public const CACHE_PATH = '/public/upload/horaire/';
     public const BASE_URL = 'https://www.esisalama.com/assets/upload/horaire/pdf/HORAIRE%s.pdf';
-    public const KEYBOARD_MAKEUP = [
-        ['PREPA_A', 'PREPA_B'],
-        ['L1_A', 'L1_B'],
-        ['L2', 'L2_AS', 'L2_DESIGN', 'L2_GL', 'L2_MSI', 'L2_TLC'],
-        ['L3', 'L3_AS', 'L3_DESIGN', 'L3_MSI', 'L3_SI', 'L3_TLC'],
-        ['L4', 'M1_GL', 'M1_MIAGE', 'M1_RM'],
-        ['M2_GL', 'M2_MIAGE', 'M2_RM']
-    ];
-    public const PROMOTIONS = [
-        'PREPA_A',
-        'PREPA_B',
-        'L1_A',
-        'L1_B',
-        'L2',
-        'L2_AS',
-        'L2_DESIGN',
-        'L2_GL',
-        'L2_MSI',
-        'L2_TLC',
-        'L3',
-        'L3_AS',
-        'L3_DESIGN',
-        'L3_MSI',
-        'L3_SI',
-        'L3_TLC',
-        'L4',
-        'M1_GL',
-        'M1_MIAGE',
-        'M1_RM',
-        'M2_GL',
-        'M2_MIAGE',
-        'M2_RM',
-    ];
     private string $root;
     private Filesystem $fs;
 
@@ -72,6 +39,7 @@ class TimetableService
     }
 
     /**
+     * Get cached timetable file form filesystem
      * @param string $promotion
      * @return string
      * @throws EmptyPromotionException
@@ -82,9 +50,8 @@ class TimetableService
     public function getTimetableDocument(string $promotion): ?string
     {
         if (mb_strlen($promotion) !== 0) {
-            $promotion = $promotion === 'PREPA_B' ? 'PREPA_%20B' : $promotion; // because of esis website typo
-            $file = $this->root . "HORAIRE_{$promotion}.pdf";
-            if (in_array($promotion, self::PROMOTIONS) || $promotion === 'PREPA_%20B') {
+            $file = sprintf("%sHORAIRE_%s.pdf", $this->root, PromotionService::fromFileSystem($promotion));
+            if (in_array($promotion, PromotionService::PROMOTIONS)) {
                 if (file_exists($file)) {
                     return $file;
                 }
@@ -96,12 +63,14 @@ class TimetableService
     }
 
     /**
+     * Download file from esisalama.com website and cache them
+     * on the server for performance issues
      * @param string $promotion
      * @author bernard-ng <ngandubernard@gmail.com>
      */
     public function fetchTimetableDocument(string $promotion)
     {
-        $promotion = $promotion === 'PREPA_B' ? 'PREPA_%20B' : $promotion; // because of esis website typo
+        $promotion = PromotionService::fromFileSystem($promotion);
         $this->fs->dumpFile(
             $this->root . "HORAIRE_{$promotion}.pdf",
             @file_get_contents(sprintf(TimetableService::BASE_URL, "%20$promotion"))
