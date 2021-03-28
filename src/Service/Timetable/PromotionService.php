@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service\Timetable;
 
+use App\Service\Timetable\Exception\EmptyPromotionException;
+use App\Service\Timetable\Exception\InvalidPromotionException;
+
 /**
  * Class PromotionService
  * @package App\Service\Timetable
@@ -15,12 +18,14 @@ class PromotionService
      * Keyboard promotion suggestion for telegram app
      */
     public const KEYBOARD_MAKEUP = [
-        ['PREPA A', 'PREPA B'],
-        ['L1 A', 'L1 B'],
-        ['L2', 'L2 AS', 'L2 DESIGN', 'L2 GL', 'L2 MSI', 'L2 TLC'],
-        ['L3', 'L3 AS', 'L3 DESIGN', 'L3 MSI', 'L3 SI', 'L3 TLC'],
-        ['L4', 'M1 GL', 'M1 MIAGE', 'M1 RM'],
-        ['M2 GL', 'M2 MIAGE', 'M2 RM']
+        ['PREPA A', 'PREPA B', 'L1 A'],
+        ['L1 B', 'L2 AS', 'L2 DESIGN'],
+        ['L2', 'L2 MSI', 'L2 TLC'],
+        ['L2 GL', 'L3 AS', 'L3 DESIGN'],
+        ['L3', 'L3 SI', 'L3 TLC'],
+        ['L3 MSI', 'M1 GL', 'M1 MIAGE'],
+        ['L4', 'M1 GL', 'M1 MIAGE'],
+        ['M1 RM', 'M2 GL', 'M2 MIAGE', 'M2 RM']
     ];
 
     /**
@@ -91,6 +96,25 @@ class PromotionService
     {
         $code = array_search(trim(strtoupper($name)), self::PROMOTIONS_FRIENDLY_ABBR);
         return $code === false ? self::fromCode($name) : $code;
+    }
+
+    /**
+     * @param string $name
+     * @return string|null
+     * @throws EmptyPromotionException
+     * @throws InvalidPromotionException
+     * @author bernard-ng <ngandubernard@gmail.com>
+     */
+    public static function toPromotionCode(string $name): ?string
+    {
+        if (mb_strlen(strtoupper(trim($name))) !== 0) {
+            $code = self::fromFriendlyAbbr($name);
+            if ($code !== null) {
+                return $code;
+            }
+            throw new InvalidPromotionException($name);
+        }
+        throw new EmptyPromotionException();
     }
 
     /**

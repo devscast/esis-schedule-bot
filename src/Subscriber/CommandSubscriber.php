@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Subscriber;
 
 use App\Event\CommandEvent;
+use App\Service\Subscription\Exception\AlreadyHaveActiveSubscriptionException;
+use App\Service\Subscription\Exception\NonActiveSubscriptionFoundException;
+use App\Service\Subscription\SubscriptionService;
 use App\Service\Timetable\Exception\EmptyPromotionException;
 use App\Service\Timetable\Exception\InvalidPromotionException;
 use App\Service\Timetable\Exception\UnavailableTimetableException;
@@ -29,19 +32,26 @@ class CommandSubscriber implements EventSubscriberInterface
     private TimetableService $timetable;
     private BotApi $api;
     private LoggerInterface $logger;
+    private SubscriptionService $subscription;
 
     /**
      * CommandSubscriber constructor.
      * @param TimetableService $timetable
+     * @param SubscriptionService $subscription
      * @param LoggerInterface $logger
      * @param BotApi $api
      * @author bernard-ng <ngandubernard@gmail.com>
      */
-    public function __construct(TimetableService $timetable, LoggerInterface $logger, BotApi $api)
-    {
+    public function __construct(
+        TimetableService $timetable,
+        SubscriptionService $subscription,
+        LoggerInterface $logger,
+        BotApi $api
+    ) {
         $this->timetable = $timetable;
         $this->api = $api;
         $this->logger = $logger;
+        $this->subscription = $subscription;
     }
 
     /**
@@ -93,6 +103,26 @@ class CommandSubscriber implements EventSubscriberInterface
                 case '/removeKeyboard':
                     $keyboard = new ReplyKeyboardRemove();
                     $this->api->sendMessage($chatId(), null, null, false, null, $keyboard);
+                    break;
+
+                case '/subscribe@EsisHoraireBot':
+                case '/subscribe':
+                    try {
+                        $this->subscription->subscribe($event->getMessage(), $event->getArgument());
+                    } catch (InvalidPromotionException | EmptyPromotionException | AlreadyHaveActiveSubscriptionException  $e) {
+                        $this->api->sendMessage($chatId, $e->getMessage(), null, false, $messageId);
+                        $this->logger->error($e->getMessage(), $e->getTrace());
+                    }
+                    break;
+
+                case '/unsubscribe@EsisHoraireBot':
+                case '/unsubscribe':
+                    try {
+                        $this->subscription->unsubscribe($event->getMessage());
+                    } catch (NonActiveSubscriptionFoundException  $e) {
+                        $this->api->sendMessage($chatId, $e->getMessage(), null, false, $messageId);
+                        $this->logger->error($e->getMessage(), $e->getTrace());
+                    }
                     break;
 
                 default:
