@@ -89,12 +89,13 @@ class PromotionService
 
     /**
      * Get promotion code from a friendly name
-     * @param string $name
+     * @param string|null $name
      * @return string
      * @author bernard-ng <ngandubernard@gmail.com>
      */
-    public static function fromFriendlyAbbr(string $name = ""): ?string
+    public static function fromFriendlyAbbr(?string $name = ""): ?string
     {
+        $name = $name === null ? "" : $name;
         $code = array_search(trim(strtoupper($name)), self::PROMOTIONS_FRIENDLY_ABBR);
         return $code === false ? self::fromCode($name) : $code;
     }
@@ -125,7 +126,10 @@ class PromotionService
      */
     public static function fromCode(string $name): ?string
     {
-        return self::PROMOTIONS[$name] ?: null;
+        if (isset(self::PROMOTIONS[$name])) {
+            return $name;
+        }
+        return null;
     }
 
     /**
