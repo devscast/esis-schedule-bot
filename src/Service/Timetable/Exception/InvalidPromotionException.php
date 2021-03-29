@@ -23,6 +23,6 @@ class InvalidPromotionException extends Exception
      */
     public function __construct($message, $code = 0, Throwable $previous = null)
     {
-        parent::__construct(sprintf("Désolé la promotion (%s) n'est pas reconnue !", $message), $code, $previous);
+        parent::__construct(sprintf("⚠️ Désolé la promotion (%s) n'est pas reconnue !", $message), $code, $previous);
     }
 }

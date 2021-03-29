@@ -24,17 +24,4 @@ class SubscriptionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Subscription::class);
     }
-
-    /**
-     * @return array
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
-    public function findActiveSubscription(): array
-    {
-        return $this->createQueryBuilder('s')
-            ->where('s.is_active = :active')
-            ->setParameter('active', true)
-            ->getQuery()
-            ->getResult();
-    }
 }

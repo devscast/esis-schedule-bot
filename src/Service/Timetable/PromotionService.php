@@ -25,7 +25,8 @@ class PromotionService
         ['L3', 'L3 SI', 'L3 TLC'],
         ['L3 MSI', 'M1 GL', 'M1 MIAGE'],
         ['L4', 'M1 GL', 'M1 MIAGE'],
-        ['M1 RM', 'M2 GL', 'M2 MIAGE', 'M2 RM']
+        ['M1 RM', 'M2 GL', 'M2 MIAGE'],
+        ['M2 RM']
     ];
 
     /**
@@ -36,13 +37,13 @@ class PromotionService
         'PREPA_B' => 'PREPA B',
         'L1_A' => "L1 A",
         'L1_B' => "L1 B",
-        'L2' => "L2 B",
+        'L2' => "L2",
         'L2_AS' => "L2 AS",
         'L2_DESIGN' => "L2 DESIGN",
         'L2_GL' => "L2 GL",
         'L2_MSI' => "L2 MSI",
         'L2_TLC' => "L2 TLS",
-        'L3' => "L2",
+        'L3' => "L3",
         'L3_AS' => "L3 AS",
         'L3_DESIGN' => "L3 DESIGN",
         'L3_MSI' => "L3 MSI",
@@ -92,7 +93,7 @@ class PromotionService
      * @return string
      * @author bernard-ng <ngandubernard@gmail.com>
      */
-    public static function fromFriendlyAbbr(string $name): ?string
+    public static function fromFriendlyAbbr(string $name = ""): ?string
     {
         $code = array_search(trim(strtoupper($name)), self::PROMOTIONS_FRIENDLY_ABBR);
         return $code === false ? self::fromCode($name) : $code;

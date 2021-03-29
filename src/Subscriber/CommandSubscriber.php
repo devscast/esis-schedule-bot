@@ -6,6 +6,7 @@ namespace App\Subscriber;
 
 use App\Event\CommandEvent;
 use App\Service\Subscription\Exception\AlreadyHaveActiveSubscriptionException;
+use App\Service\Subscription\Exception\EmptyPromotionException as SubscriptionEmptyPromotionException;
 use App\Service\Subscription\Exception\NonActiveSubscriptionFoundException;
 use App\Service\Subscription\SubscriptionService;
 use App\Service\Timetable\Exception\EmptyPromotionException;
@@ -72,12 +73,14 @@ class CommandSubscriber implements EventSubscriberInterface
      */
     public function onCommand(CommandEvent $event)
     {
-        $chatId = $event->getMessage()->getChat()->getId();
         $messageId = $event->getMessage()->getMessageId();
         $messageType = $event->getMessage()->getChat()->getType();
 
         // to avoid group supergroup or channel spam, the bot will reply directly in private
         $replyMessageType = $messageType === "private" ? $messageId : null;
+        $chatId = $messageType === "private" ?
+            $event->getMessage()->getChat()->getId() :
+            $event->getMessage()->getFrom()->getId();
 
         try {
             switch ($event->getCommand()) {
@@ -113,8 +116,14 @@ class CommandSubscriber implements EventSubscriberInterface
                 case '/subscribe':
                     try {
                         $this->subscription->subscribe($event->getMessage(), $event->getArgument());
-                        $this->api->sendMessage($chatId, "Félicitation vous recevrez une notification chaque samedi à 9h", null, false, $replyMessageType);
-                    } catch (InvalidPromotionException | EmptyPromotionException | AlreadyHaveActiveSubscriptionException  $e) {
+                        $this->api->sendMessage(
+                            $chatId,
+                            "✔️ Abonnement effectué avec succès, vous recevrez automatiquement l'horaire chaque samedi à 9h",
+                            null,
+                            false,
+                            $replyMessageType
+                        );
+                    } catch (InvalidPromotionException | SubscriptionEmptyPromotionException | AlreadyHaveActiveSubscriptionException  $e) {
                         $this->api->sendMessage($chatId, $e->getMessage(), null, false, $messageId);
                         $this->logger->error($e->getMessage(), $e->getTrace());
                     }
@@ -124,7 +133,7 @@ class CommandSubscriber implements EventSubscriberInterface
                 case '/unsubscribe':
                     try {
                         $this->subscription->unsubscribe($event->getMessage());
-                        $this->api->sendMessage($chatId, "Désabonnement effectué avec succès", null, false, $replyMessageType);
+                        $this->api->sendMessage($chatId, "✔ Désabonnement effectué avec succès", null, false, $replyMessageType);
                     } catch (NonActiveSubscriptionFoundException  $e) {
                         $this->api->sendMessage($chatId, $e->getMessage(), null, false, $messageId);
                         $this->logger->error($e->getMessage(), $e->getTrace());
@@ -133,7 +142,7 @@ class CommandSubscriber implements EventSubscriberInterface
 
                 default:
                     $command = $event->getCommand();
-                    $this->api->sendMessage($chatId, "Commande Indisponible ${command}");
+                    $this->api->sendMessage($chatId, "⚠️ Commande Indisponible (${command})");
                     break;
             }
         } catch (InvalidArgumentException | Exception $e) {

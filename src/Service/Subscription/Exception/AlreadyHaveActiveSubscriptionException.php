@@ -14,7 +14,9 @@ use Exception;
 class AlreadyHaveActiveSubscriptionException extends Exception
 {
     protected $message = <<< MESSAGE
-Désolé vous avez déjà un abonnement actif aux notifications instantanées
-du bot, si vous voulez désactiver les notifications utilisez la commande /unsubscribe
+⚠️ Vous avez déjà un abonnement actif aux notifications instantanées du bot
+Si vous voulez désactiver les notifications 
+
+utilisez /unsubscribe
 MESSAGE;
 }

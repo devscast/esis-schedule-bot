@@ -14,7 +14,9 @@ use Exception;
 class NonActiveSubscriptionFoundException extends Exception
 {
     protected $message = <<< MESSAGE
-Désolé vous n'avez pas un abonnement actif
-si vous voulez activer les notifications utilisez la commande /subscribe
+⚠️ Vous n'avez pas un abonnement actif
+si vous voulez activer les notifications 
+
+utilisez /subscribe [promotion]
 MESSAGE;
 }
