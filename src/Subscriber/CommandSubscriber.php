@@ -77,7 +77,7 @@ class CommandSubscriber implements EventSubscriberInterface
         $messageType = $event->getMessage()->getChat()->getType();
 
         // to avoid group supergroup or channel spam, the bot will reply directly in private
-        $replyMessageType = $messageType === "private" ? $messageId : null;
+        $replyToMessageId = $messageType === "private" ? $messageId : null;
         $chatId = $messageType === "private" ?
             $event->getMessage()->getChat()->getId() :
             $event->getMessage()->getFrom()->getId();
@@ -92,10 +92,10 @@ class CommandSubscriber implements EventSubscriberInterface
                             $chatId,
                             new CURLFile($file, 'application/pdf'),
                             "Voici l'horaire demandé",
-                            $replyMessageType
+                            $replyToMessageId
                         );
                     } catch (InvalidPromotionException | EmptyPromotionException | UnavailableTimetableException $e) {
-                        $this->api->sendMessage($chatId, $e->getMessage(), null, false, $messageId);
+                        $this->api->sendMessage($chatId, $e->getMessage(), null, false, $replyToMessageId);
                         $this->logger->error($e->getMessage(), $e->getTrace());
                     }
                     break;
@@ -103,7 +103,7 @@ class CommandSubscriber implements EventSubscriberInterface
                 case '/start@EsisHoraireBot':
                 case '/start':
                     $keyboard = new ReplyKeyboardMarkup(PromotionService::KEYBOARD_MAKEUP, false);
-                    $this->api->sendMessage($chatId, "Horaire Esis Salama Disponible", null, false, null, $keyboard);
+                    $this->api->sendMessage($chatId, "Horaire Esis Salama Disponible", null, false, $replyToMessageId, $keyboard);
                     break;
 
                 case '/removeKeyboard@EsisHoraireBot':
@@ -121,10 +121,10 @@ class CommandSubscriber implements EventSubscriberInterface
                             "✔️ Abonnement effectué avec succès, vous recevrez automatiquement l'horaire chaque samedi à 9h",
                             null,
                             false,
-                            $replyMessageType
+                            $replyToMessageId
                         );
                     } catch (InvalidPromotionException | SubscriptionEmptyPromotionException | AlreadyHaveActiveSubscriptionException  $e) {
-                        $this->api->sendMessage($chatId, $e->getMessage(), null, false, $messageId);
+                        $this->api->sendMessage($chatId, $e->getMessage(), null, false, $replyToMessageId);
                         $this->logger->error($e->getMessage(), $e->getTrace());
                     }
                     break;
@@ -133,9 +133,9 @@ class CommandSubscriber implements EventSubscriberInterface
                 case '/unsubscribe':
                     try {
                         $this->subscription->unsubscribe($event->getMessage());
-                        $this->api->sendMessage($chatId, "✔ Désabonnement effectué avec succès", null, false, $replyMessageType);
+                        $this->api->sendMessage($chatId, "✔ Désabonnement effectué avec succès", null, false, $replyToMessageId);
                     } catch (NonActiveSubscriptionFoundException  $e) {
-                        $this->api->sendMessage($chatId, $e->getMessage(), null, false, $messageId);
+                        $this->api->sendMessage($chatId, $e->getMessage(), null, false, $replyToMessageId);
                         $this->logger->error($e->getMessage(), $e->getTrace());
                     }
                     break;
