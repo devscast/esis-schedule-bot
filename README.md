@@ -22,7 +22,7 @@ L'horaire de cours est mis à jour chaque semaine, pour cela le bot doit obtenir
 distribuées en temps réels, pour cela il faudra créer une tâche CRON pour chaque dimanche soir en appelant la commande
 suivant
 
-CRON : **0 0 * * SUN**
+CRON : **0 9 * * SAT**
 
 ```bash
 php bin/console bot:fetch-timetable
@@ -51,6 +51,24 @@ Telegram
 
 ```bash
 php bin/console bot:telegram-webhook [url]
+```
+
+# Configuration de la base de données
+Pour le système d'abonnement une base de donnée SQL est mise à place, pour la générée il suffit de taper les commande 
+suivante, en mettant les identifiant de connexion dans le fichier ```.env.local```
+
+```bash
+php bin/console doctrine:migrations:migrate
+```
+
+# Notification Push
+Pour envoyer les notifications automatiques aux abonnés il suffit de taper la commande suivante
+tous les samedis à 9 h
+
+CRON **0 10 * * SAT**
+
+```bash
+php bin/console bot:telegram-push
 ```
 
 # Copyright
