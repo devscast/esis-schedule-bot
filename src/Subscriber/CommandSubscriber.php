@@ -102,7 +102,7 @@ class CommandSubscriber implements EventSubscriberInterface
 
                 case '/start@EsisHoraireBot':
                 case '/start':
-                    $keyboard = new ReplyKeyboardMarkup(PromotionService::KEYBOARD_MAKEUP, false);
+                    $keyboard = new ReplyKeyboardMarkup(PromotionService::KEYBOARD_MAKEUP, true);
                     $this->api->sendMessage($chatId, "Horaire Esis Salama Disponible", null, false, $replyToMessageId, $keyboard);
                     break;
 
