@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Service\Timetable\PromotionService;
 use App\Service\Timetable\TimetableService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -50,7 +51,7 @@ class BotFetchTimetableCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        foreach (TimetableService::PROMOTIONS as $promotion) {
+        foreach (PromotionService::PROMOTIONS as $promotion) {
             $this->service->fetchTimetableDocument($promotion);
             $io->text("Timetable Imported => $promotion");
         }
