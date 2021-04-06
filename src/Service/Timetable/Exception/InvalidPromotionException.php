@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Timetable\Exception;
 
-use Exception;
+use InvalidArgumentException;
 use Throwable;
 
 /**
@@ -12,7 +12,7 @@ use Throwable;
  * @package App\Service
  * @author bernard-ng <ngandubernard@gmail.com>
  */
-class InvalidPromotionException extends Exception
+class InvalidPromotionException extends InvalidArgumentException
 {
     /**
      * InvalidPromotionException constructor.

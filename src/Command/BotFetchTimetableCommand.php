@@ -10,7 +10,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * Class BotFetchTimetableCommand
@@ -24,11 +23,10 @@ class BotFetchTimetableCommand extends Command
 
     /**
      * BotFetchTimetableCommand constructor.
-     * @param KernelInterface $kernel
      * @param TimetableService $service
      * @author bernard-ng <ngandubernard@gmail.com>
      */
-    public function __construct(KernelInterface $kernel, TimetableService $service)
+    public function __construct(TimetableService $service)
     {
         parent::__construct('bot:fetch-timetable');
         $this->service = $service;

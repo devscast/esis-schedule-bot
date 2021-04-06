@@ -7,36 +7,16 @@ namespace App\Service\Timetable;
 use App\Service\Timetable\Exception\EmptyPromotionException;
 use App\Service\Timetable\Exception\InvalidPromotionException;
 use App\Service\Timetable\Exception\UnavailableTimetableException;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * Class EsisTimetableService
  * @package App\Service
  * @author bernard-ng <ngandubernard@gmail.com>
  */
-class TimetableService
+class TimetableService extends AbstractCachingService
 {
     public const CACHE_PATH = '/public/upload/horaire/';
     public const BASE_URL = 'https://www.esisalama.com/assets/upload/horaire/pdf/HORAIRE%s.pdf';
-    private string $root;
-    private Filesystem $fs;
-
-    /**
-     * TimetableService constructor.
-     * @param KernelInterface $kernel
-     * @param Filesystem $fs
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
-    public function __construct(KernelInterface $kernel, Filesystem $fs)
-    {
-        $root = $kernel->getProjectDir() . TimetableService::CACHE_PATH;
-        if (!file_exists($root)) {
-            mkdir($root, 0777, true);
-        }
-        $this->root = $root;
-        $this->fs = $fs;
-    }
 
     /**
      * Get cached timetable file form filesystem

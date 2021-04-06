@@ -6,3 +6,14 @@ webhook:
 index:
     path: /
     controller: App\Controller\MainController::index
+
+app_login:
+    path: /login
+    controller: App\Controller\LoginController::login
+app_logout:
+    path: /logout
+    controller: App\Controller\LogoutController::logout
+
+app_dashboard:
+    path: /dashboard
+    controller: App\Controller\MainController::dashboard

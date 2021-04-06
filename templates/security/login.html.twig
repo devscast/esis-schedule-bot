@@ -1,0 +1,31 @@
+{% extends 'auth.html.twig' %}
+
+{% block body %}
+    <div class="nk-block-head">
+        <div class="nk-block-head-content">
+            <h2 class="nk-block-title fw-bolder">EsisHoraireBot</h2>
+            <div class="nk-block-des"><p>Connectez-vous pour administrer le bot</p></div>
+        </div>
+    </div>
+    <form action="{{ path('app_login') }}" method="post">
+        <div class="form-group">
+            <div class="form-label-group">
+                <label class="form-label" for="email">Email</label>
+            </div>
+            <input type="email" name="email" class="form-control form-control-lg" id="email"
+                   placeholder="hello@example.com....">
+        </div>
+        <div class="form-group">
+            <div class="form-label-group">
+                <label class="form-label" for="password">Mot de passe</label>
+            </div>
+            <div class="form-control-wrap">
+                <input type="password" name="password" class="form-control form-control-lg" id="password"
+                       placeholder="Enter your passcode">
+            </div>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-lg btn-primary btn-block">Connexion</button>
+        </div>
+    </form>
+{% endblock %}
