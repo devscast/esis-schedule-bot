@@ -26,7 +26,7 @@ Encore
     })
 
     .enableSassLoader()
-    .enableIntegrityHashes(Encore.isProduction())
+    //.enableIntegrityHashes(Encore.isProduction())
     .addExternals({jquery: 'jQuery'})
     .addAliases({$: 'jQuery'})
     .addAliases({'jquery': 'jQuery'})
