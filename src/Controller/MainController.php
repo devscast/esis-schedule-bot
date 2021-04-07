@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,15 +30,6 @@ class MainController extends AbstractController
      */
     public function dashboard(): Response
     {
-       return $this->render('index.html.twig');
-    }
-
-    /**
-     * @return Response
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
-    public function subscription(): Response
-    {
-        return $this->render("");
+        return $this->render('index.html.twig');
     }
 }

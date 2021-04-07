@@ -31,8 +31,8 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-{{ asset('assets/bundle.js') }}
-{{ asset('assets/scripts.js') }}
+<script src="{{ asset('assets/bundle.js') }}"></script>
+<script src="{{ asset('assets/scripts.js') }}"></script>
 {{ encore_entry_script_tags('app') }}
 {% block javascripts %}{% endblock %}
 </body>
