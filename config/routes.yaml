@@ -1,24 +1,22 @@
 webhook:
     path: /webhook/telegram
     controller: App\Controller\WebhookController::index
-    methods:
-        - POST
+    methods: POST
+
 index:
     path: /
     controller: App\Controller\MainController::index
+    methods: GET
 
 app_login:
     path: /login
     controller: App\Controller\LoginController::login
-    methods:
-        - GET
-        - POST
+    methods: GET|POST
+
 app_logout:
     path: /logout
     controller: App\Controller\LogoutController::logout
-    methods:
-        - GET
-        - POST
+    methods: GET|POST
 
 app_dashboard:
     path: /dashboard
@@ -27,22 +25,29 @@ app_dashboard:
 app_subscription_new:
     path: /dashboard/subscription/new
     controller: App\Controller\SubscriptionController::new
-    methods:
-        - GET
-        - POST
+    methods: GET|POST
+
 app_subscription_edit:
     path: /dashboard/subscription/edit/{id}
     controller: App\Controller\SubscriptionController::edit
-    methods:
-        - GET
-        - POST
+    methods: GET|POST
+
 app_subscription_index:
     path: /dashboard/subscription
     controller: App\Controller\SubscriptionController::index
-    methods:
-        - GET
+    methods: GET
+
 app_subscription_delete:
     path: /dashboard/subscription/{id}
     controller: App\Controller\SubscriptionController::delete
-    methods:
-        - DELETE
+    methods: DELETE
+
+app_user_index:
+    path: /dashboard/users
+    controller: App\Controller\UserController::index
+    methods: GET
+
+app_user_delete:
+    path: /dashboard/users/{id}
+    controller: App\Controller\UserController::delete
+    methods: DELETE
