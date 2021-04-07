@@ -36,7 +36,7 @@ abstract class CRUDController extends AbstractController
         'new' => '',
         'edit' => '',
         'delete' => '',
-        'form' => ''
+        'form' => '_includes/_forms.html.twig'
     ];
     protected PaginatorInterface $paginator;
     protected EventDispatcherInterface $dispatcher;

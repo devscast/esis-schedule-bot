@@ -14,13 +14,18 @@
                                 <a href="#" class="btn btn-icon btn-primary d-md-none">
                                     <em class="icon ni ni-plus"></em>
                                 </a>
-                                <a href="#" class="btn btn-primary d-none d-md-inline-flex">
+                                <a href="#" title="Ajouter"
+                                   data-create-button
+                                   data-url="{{ path('app_subscription_new') }}"
+                                   data-toggle="modal"
+                                   data-target="#modal" class="btn btn-primary d-none d-md-inline-flex">
                                     <em class="icon ni ni-plus"></em><span>Ajouter</span>
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </div>
+                {{ include('_includes/_modal.html.twig', {id: 'modal', title: 'Ajouter Subscription'}) }}
             </div>
         </div>
     </div>

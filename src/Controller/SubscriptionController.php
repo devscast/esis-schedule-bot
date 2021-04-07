@@ -29,6 +29,7 @@ class SubscriptionController extends CRUDController
         'index' => 'subscription/index.html.twig',
         'new' => 'subscription/new.html.twig',
         'edit' => 'subscription/edit.html.twig',
+        'form' => "_includes/_forms.html.twig"
     ];
 
 
