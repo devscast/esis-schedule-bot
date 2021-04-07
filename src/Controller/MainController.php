@@ -28,7 +28,7 @@ class MainController extends AbstractController
      */
     public function dashboard(): Response
     {
-        return $this->render("");
+       return $this->render('index.html.twig');
     }
 
     /**

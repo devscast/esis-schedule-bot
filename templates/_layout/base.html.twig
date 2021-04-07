@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale() }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="devscast">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="https://www.esisalama.com/assets/img/logo.png">
+    <title>{% block title %}EsisHoraireBot{% endblock %}</title>
+    {{ encore_entry_link_tags('app') }}
+    {% block stylesheets %}{% endblock %}
+</head>
+<body class="nk-body bg-white has-sidebar ui-shady ui-bordered">
+<div class="nk-app-root">
+    <div class="nk-main ">
+        {{ include('_includes/_sidebar.html.twig') }}
+        <div class="nk-wrap ">
+            {{ include('_includes/_header.html.twig') }}
+            <div class="nk-content nk-content-fluid">
+                <div class="container-xl wide-lg">
+                    <div class="nk-content-body">
+                        {% block section %}{% endblock %}
+                        <div class="nk-block">
+                            {% block content %}{% endblock %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+{{ encore_entry_script_tags('app') }}
+{% block javascripts %}{% endblock %}
+</body>
+</html>

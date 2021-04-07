@@ -1,4 +1,4 @@
-{% extends 'auth.html.twig' %}
+{% extends '_layout/auth.html.twig' %}
 
 {% block body %}
     <div class="nk-block-head">
@@ -12,16 +12,15 @@
             <div class="form-label-group">
                 <label class="form-label" for="email">Email</label>
             </div>
-            <input type="email" name="email" class="form-control form-control-lg" id="email"
-                   placeholder="hello@example.com....">
+            <input type="email" name="email" class="form-control form-control-lg" id="email" placeholder="hello@example.com....">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
         </div>
         <div class="form-group">
             <div class="form-label-group">
                 <label class="form-label" for="password">Mot de passe</label>
             </div>
             <div class="form-control-wrap">
-                <input type="password" name="password" class="form-control form-control-lg" id="password"
-                       placeholder="Enter your passcode">
+                <input type="password" name="password" class="form-control form-control-lg" id="password" placeholder="Enter your passcode">
             </div>
         </div>
         <div class="form-group">

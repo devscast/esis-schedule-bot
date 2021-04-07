@@ -1,0 +1,14 @@
+<div class="alert-container">
+    {% for flash in app.flashes('success') %}
+        <div data-flash-alert="true"
+             data-flash-type="success"
+             data-flash-message="{{ flash | trans }}"
+        ></div>
+    {% endfor %}
+    {% for flash in app.flashes('error') %}
+        <div data-flash-alert="true"
+             data-flash-type="error"
+             data-flash-message="{{ flash | trans }}"
+        ></div>
+    {% endfor %}
+</div>
