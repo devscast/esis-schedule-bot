@@ -93,6 +93,9 @@
     "laminas/laminas-zendframework-bridge": {
         "version": "1.1.1"
     },
+    "league/period": {
+        "version": "4.11.0"
+    },
     "monolog/monolog": {
         "version": "2.1.1"
     },

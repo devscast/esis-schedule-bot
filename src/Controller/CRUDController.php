@@ -85,8 +85,7 @@ abstract class CRUDController extends AbstractController
         return $this->render($this->views['index'], [
             'items' => $items,
             'search_filters' => static::FILTERABLE_FIELDS,
-            $context
-        ]);
+        ] + $context);
     }
 
     /**
