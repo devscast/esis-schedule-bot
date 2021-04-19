@@ -8,10 +8,16 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="text-center">
-                    <div class="spinner-border text-primary"></div>
-                    <div>chargement...</div>
-                </div>
+                {% if body is defined and body %}
+                    <pre>
+                        <code class="json">{{ body | doctrine_format_sql(false) }}</code>
+                    </pre>
+                {% else %}
+                    <div class="text-center">
+                        <div class="spinner-border text-primary"></div>
+                        <div>chargement...</div>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

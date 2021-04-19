@@ -1,5 +1,6 @@
+import jquery from 'jquery'
 import 'popper.js'
-import Flash from "./modules/flash";
+import 'bootstrap/js/dist/modal'
 
 const createButtons = document.querySelectorAll('[data-create-button]');
 if (createButtons.length > 0) {

@@ -1,5 +1,11 @@
 {% extends '_layout/base.html.twig' %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+{% endblock %}
+
 {% block section %}
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
@@ -15,7 +21,7 @@
         <div class="col-12 col-md-4 mg-b-10 mg-t-10 mg-sm-t-0">
             <div class="card card-body">
                 <h6 class="tx-uppercase tx-11 tx-spacing-1 tx-color-02 tx-bold mg-b-10">
-                   Aujourd'hui
+                    Aujourd'hui
                 </h6>
                 <div class="d-flex d-lg-block d-xl-flex align-items-end">
                     <h3 class="tx-bold tx-rubik mg-b-10 mg-r-5 lh-1">{{ days }} </h3>
@@ -53,26 +59,31 @@
                 <th>Demande</th>
                 <th>Réponse</th>
                 <th>Code Réponse</th>
-                <th>Temps Total</th>
                 <th class="tb-odr-action">&nbsp;</th>
             </tr>
             </thead>
             <tbody class="tb-odr-body">
             {% for item in items %}
                 <tr class="tb-odr-item">
+                    <td>{{ item.id }}</td>
                     <td>{{ item.method }}</td>
-                    <td>{{ item.requested_at | date('H:i:s') }}</td>
-                    <td>{{ item.responded_at | date('H:i:s') }}</td>
+                    <td>{{ item.requestedAt | date('H:i:s') }}</td>
+                    <td>{{ item.respondedAt | date('H:i:s') }}</td>
                     <td>{{ item.responseCode }}</td>
-                    <td>{{ (item.requested_at | date('U') - item.respondedAt | date('U')) | date('H:i:s') }}</td>
                     <td class="tb-odr-action">
                         <div class="tb-odr-btns d-none d-md-inline">
-                            <a href="#" class="btn btn-sm btn-primary">Payload</a>
+                            <button data-create-button data-toggle="modal" data-target="#modal_{{ item.id }}"
+                                    class="btn btn-sm btn-primary">Payload
+                            </button>
                         </div>
                     </td>
+                    {{ include('_includes/_modal.html.twig', {id: "modal_" ~ item.id, title: 'Payload', body: item.payload}) }}
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+    </div>
+    <div class="mt-5 d-flex align-center justify-center">
+        {{ knp_pagination_render(items) }}
     </div>
 {% endblock %}

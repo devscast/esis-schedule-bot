@@ -1,5 +1,4 @@
 import jquery from 'jquery'
-import 'bootstrap/js/dist/modal'
 import axios from '../axios'
 import {createButtonLoader, removeButtonLoader} from "./dom"
 
