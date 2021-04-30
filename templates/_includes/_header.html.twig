@@ -2,17 +2,51 @@
     <div class="container-fluid">
         <div class="nk-header-wrap">
             <div class="nk-menu-trigger d-xl-none ml-n1">
-                <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
+                <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu">
+                    <em class="icon ni ni-menu"></em>
+                </a>
             </div>
             <div class="nk-header-brand d-xl-none">
                 <a href="{{ path('app_dashboard') }}" class="logo-link">
-                    <img class="logo-img logo-img-lg" src="https://www.esisalama.com/assets/img/logo.png" alt="logo">
+                    <img width="70%" class="logo-img logo-img-lg" src="https://www.esisalama.com/assets/img/logo.png" alt="logo">
                 </a>
             </div>
             <div class="nk-header-tools">
-                <a href="{{ path('app_logout') }}" class="text-danger">
-                    <em class="icon ni ni-signout"></em>
-                </a>
+                <ul class="nk-quick-nav">
+                    <li class="dropdown user-dropdown">
+                        <a href="#" class="dropdown-toggle mr-n1" data-toggle="dropdown" aria-expanded="false">
+                            <div class="user-toggle">
+                                <div class="user-avatar sm"><em class="icon ni ni-user-alt"></em></div>
+                                <div class="user-info d-none d-xl-block">
+                                    <div class="user-status user-status-verified">Administrateur</div>
+                                    <div class="user-name dropdown-indicator">{{ app.user.username }}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-md dropdown-menu-right" style="">
+                            <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
+                                <div class="user-card">
+                                    <div class="user-avatar">
+                                        <em class="icon ni ni-user-alt"></em>
+                                    </div>
+                                    <div class="user-info">
+                                        <span class="lead-text">{{ app.user.username }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown-inner">
+                                <ul class="link-list">
+                                    <li>
+                                        <a href="{{ logout_url() }}">
+                                            <em class="icon ni ni-signout"></em>
+                                            <span>Déconnexion</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

@@ -49,9 +49,6 @@ class BotWebScrapeCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-
-        $this->service->serializeHTMLDocument('jour');
-
         foreach (ScrapingService::VACATIONS as $vacation) {
             try {
                 $this->service->fetchTimetableHTMLDocument($vacation);
@@ -61,6 +58,8 @@ class BotWebScrapeCommand extends Command
                 continue;
             }
         }
+
+        $io->success("All Documents have been imported !");
         return Command::SUCCESS;
     }
 }
