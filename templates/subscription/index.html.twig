@@ -53,16 +53,23 @@
                         <td>{{ item.createdAt | date }}</td>
                         <td>
                            {% if item.active == 1 %}
-                               <span class="badge badge-dot badge-success">Actif</span>
+                               <span class="badge badge-sm badge-dot badge-success">Actif</span>
                            {% else %}
-                               <span class="badge badge-dot badge-warning">Inactif</span>
+                               <span class="badge badge-sm badge-dot badge-danger">Inactif</span>
                            {% endif %}
                         </td>
                         <td class="tb-odr-action">
                             <div class="tb-odr-btns d-none d-md-inline">
-                                <a href="#" class="btn btn-sm btn-primary">View</a>
+                                <a href="#" title="Ajouter"
+                                   data-create-button
+                                   data-url="{{ path('app_subscription_edit', {id: item.id}) }}"
+                                   data-toggle="modal"
+                                   data-target="#subscription_{{ item.id }}" class="btn btn-dim btn-primary d-none d-md-inline-flex">
+                                    <span>Éditer</span>
+                                </a>
                             </div>
                         </td>
+                        {{ include('_includes/_modal.html.twig', {id: "subscription_#{ item.id }", title: 'Éditer Subscription'}) }}
                     </tr>
                 {% endfor %}
             </tbody>
