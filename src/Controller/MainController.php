@@ -8,6 +8,7 @@ use App\Entity\Request as RequestLog;
 use App\Repository\RequestRepository;
 use DateTimeImmutable;
 use League\Period\Period;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,10 +26,11 @@ class MainController extends CRUDController
      */
     public function index(): Response
     {
-        return new RedirectResponse("https://t.me/EsisHoraireBot", Response::HTTP_MOVED_PERMANENTLY);
+        return new RedirectResponse("https://t.me/EsisHoraireBot", Response::HTTP_TEMPORARY_REDIRECT);
     }
 
     /**
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      * @param Request $request
      * @param RequestRepository $repository
      * @return Response

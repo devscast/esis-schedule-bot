@@ -6,10 +6,12 @@ namespace App\Controller;
 
 use App\Entity\Subscription;
 use App\Form\SubscriptionType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
+ * @IsGranted("IS_AUTHENTICATED_FULLY")
  * Class SubscriptionController
  * @package App\Controller
  * @author bernard-ng <ngandubernard@gmail.com>
