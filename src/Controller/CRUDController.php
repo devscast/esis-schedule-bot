@@ -52,8 +52,7 @@ abstract class CRUDController extends AbstractController
         EntityManagerInterface $em,
         PaginatorInterface $paginator,
         EventDispatcherInterface $dispatcher
-    )
-    {
+    ) {
         $this->em = $em;
         $this->paginator = $paginator;
         $this->dispatcher = $dispatcher;

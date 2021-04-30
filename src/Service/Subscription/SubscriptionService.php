@@ -46,8 +46,7 @@ class SubscriptionService
         SubscriptionRepository $repository,
         TimetableService $timetable,
         BotApi $api
-    )
-    {
+    ) {
         $this->em = $em;
         $this->repository = $repository;
         $this->api = $api;

@@ -17,5 +17,4 @@ class UnavailableTimetableException extends Exception
 ⚠️ Désolé l'horaire pour votre promotion n'est pas encore disponible ici, 
 vérifiez directement sur le site d'Esis comme d'habitude 🤧🤧 ou réessayez plus tard
 MESSAGE;
-
 }

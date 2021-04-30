@@ -79,7 +79,6 @@ class ScrapingService extends AbstractCachingService
                     return trim($td->text());
                 });
             });
-
         }
         throw new InvalidVacationException($vacation);
     }

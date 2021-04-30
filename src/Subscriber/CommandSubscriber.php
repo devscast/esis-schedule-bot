@@ -48,8 +48,7 @@ class CommandSubscriber implements EventSubscriberInterface
         SubscriptionService $subscription,
         LoggerInterface $logger,
         BotApi $api
-    )
-    {
+    ) {
         $this->timetable = $timetable;
         $this->api = $api;
         $this->logger = $logger;
@@ -103,7 +102,14 @@ class CommandSubscriber implements EventSubscriberInterface
                 case '/start@EsisHoraireBot':
                 case '/start':
                     $keyboard = new ReplyKeyboardMarkup(PromotionService::KEYBOARD_MAKEUP, true);
-                    $this->api->sendMessage($chatId, "Horaire Esis Salama Disponible", null, false, $replyToMessageId, $keyboard);
+                    $this->api->sendMessage(
+                        $chatId,
+                        "Horaire Esis Salama Disponible",
+                        null,
+                        false,
+                        $replyToMessageId,
+                        $keyboard
+                    );
                     break;
 
                 case '/removeKeyboard@EsisHoraireBot':
@@ -118,12 +124,16 @@ class CommandSubscriber implements EventSubscriberInterface
                         $this->subscription->subscribe($event->getMessage(), $event->getArgument());
                         $this->api->sendMessage(
                             $chatId,
-                            "✔️ Abonnement effectué avec succès, vous recevrez automatiquement l'horaire chaque samedi à 9h",
+                            "✔️ Abonnement effectué avec succès, 
+                            vous recevrez automatiquement l'horaire chaque samedi à 9h",
                             null,
                             false,
                             $replyToMessageId
                         );
-                    } catch (InvalidPromotionException | SubscriptionEmptyPromotionException | AlreadyHaveActiveSubscriptionException  $e) {
+                    } catch (InvalidPromotionException |
+                        SubscriptionEmptyPromotionException |
+                        AlreadyHaveActiveSubscriptionException  $e
+                    ) {
                         $this->api->sendMessage($chatId, $e->getMessage(), null, false, $replyToMessageId);
                         $this->logger->error($e->getMessage(), $e->getTrace());
                     }
@@ -133,7 +143,13 @@ class CommandSubscriber implements EventSubscriberInterface
                 case '/unsubscribe':
                     try {
                         $this->subscription->unsubscribe($event->getMessage());
-                        $this->api->sendMessage($chatId, "✔ Désabonnement effectué avec succès", null, false, $replyToMessageId);
+                        $this->api->sendMessage(
+                            $chatId,
+                            "✔ Désabonnement effectué avec succès",
+                            null,
+                            false,
+                            $replyToMessageId
+                        );
                     } catch (NonActiveSubscriptionFoundException  $e) {
                         $this->api->sendMessage($chatId, $e->getMessage(), null, false, $replyToMessageId);
                         $this->logger->error($e->getMessage(), $e->getTrace());
