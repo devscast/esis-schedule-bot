@@ -6,8 +6,9 @@
         <meta name="author" content="devscast">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="shortcut icon" href="https://www.esisalama.com/assets/img/logo.png">
-        <title>{% block title %}Login{% endblock %} | EsisHoraireBot</title>
-        {{ encore_entry_link_tags('app') }}
+        <title>{% block title %}Connexion{% endblock %} | EsisHoraireBot</title>
+        <link rel="stylesheet" href="{{ asset('assets/css/app.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/theme.min.css') }}">
     </head>
 
     <body class="nk-body bg-white npc-default pg-auth">
@@ -35,8 +36,8 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="{{ asset('assets/bundle.js') }}"></script>
-    <script src="{{ asset('assets/scripts.js') }}"></script>
+    <script src="{{ asset('assets/js/bundle.js') }}"></script>
+    <script src="{{ asset('assets/js/scripts.js') }}"></script>
     {{ encore_entry_script_tags('app') }}
     </body>
     </html>
