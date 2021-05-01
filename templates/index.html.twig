@@ -10,7 +10,7 @@
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title">Monitoring</h3>
+                <h3 class="nk-block-title page-title">Statistiques</h3>
             </div>
         </div>
     </div>
@@ -56,6 +56,7 @@
             <tr class="tb-odr-item">
                 <th>ID</th>
                 <th>Méthode</th>
+                <th>Date</th>
                 <th>Demande</th>
                 <th>Réponse</th>
                 <th>Code Réponse</th>
@@ -67,17 +68,22 @@
                 <tr class="tb-odr-item">
                     <td>{{ item.id }}</td>
                     <td>{{ item.method }}</td>
+                    <td class="fw-bolder">{{ item.requestedAt | date('d M Y') }}</td>
                     <td>{{ item.requestedAt | date('H:i:s') }}</td>
                     <td>{{ item.respondedAt | date('H:i:s') }}</td>
-                    <td>{{ item.responseCode }}</td>
-                    <td class="tb-odr-action">
-                        <div class="tb-odr-btns d-none d-md-inline">
-                            <button data-create-button data-toggle="modal" data-target="#modal_{{ item.id }}"
-                                    class="btn btn-sm btn-primary">Payload
-                            </button>
-                        </div>
-                    </td>
-                    {{ include('_includes/_modal.html.twig', {id: "modal_" ~ item.id, title: 'Payload', body: item.payload}) }}
+                    <td class="fw-bolder">{{ item.responseCode }}</td>
+                    {% if item.payload %}
+                        <td class="tb-odr-action">
+                            <div class="tb-odr-btns d-none d-md-inline">
+                                <button data-create-button data-toggle="modal" data-target="#modal_{{ item.id }}"
+                                        class="btn btn-sm btn-dim btn-primary">Payload
+                                </button>
+                            </div>
+                        </td>
+                        {{ include('_includes/_modal.html.twig', {id: "modal_" ~ item.id, title: 'Payload', body: item.payload}) }}
+                    {% else %}
+                        <td>&nbsp;</td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </tbody>

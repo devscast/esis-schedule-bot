@@ -23,8 +23,8 @@
             <tbody class="tb-odr-body">
             {% for item in items %}
                 <tr class="tb-odr-item">
-                    <td>#{{ item.id }}</td>
-                    <td>{{ item.email }}</td>
+                    <td>{{ item.id }}</td>
+                    <td class="fw-bolder">{{ item.email }}</td>
                     <td class="tb-odr-action">
                         {% if app.user.id != item.id %}
                             <div class="tb-odr-btns d-none d-md-inline">

@@ -4,7 +4,7 @@
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title">Subscriptions</h3>
+                <h3 class="nk-block-title page-title">Abonnements</h3>
             </div>
             <div class="nk-block-head-content">
                 <div class="toggle-wrap nk-block-tools-toggle">
@@ -48,8 +48,8 @@
                 {% for item in items %}
                     <tr class="tb-odr-item">
                         <td><a target="_blank" href="https://t.me/{{ item.name }}">{{ item.chatId }}</a></td>
-                        <td>{{ item.promotion }}</td>
-                        <td>{{ item.name }}</td>
+                        <td class="fw-bolder">{{ item.promotion }}</td>
+                        <td class="fw-bolder">{{ item.name }}</td>
                         <td>{{ item.createdAt | date }}</td>
                         <td>
                            {% if item.active == 1 %}
