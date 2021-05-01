@@ -9,6 +9,13 @@ if (createButtons.length > 0) {
         .catch(e => console.error({e}))
 }
 
+const commandButtons = document.querySelectorAll('[data-command-button]');
+if (commandButtons.length > 0) {
+    import('./modules/command')
+        .then(module => (new module.default(commandButtons)))
+        .catch(e => console.error({e}))
+}
+
 const deleteButtons = document.querySelectorAll('[data-delete-button]');
 if (deleteButtons.length > 0) {
     import('./modules/delete')

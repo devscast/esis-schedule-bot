@@ -43,7 +43,7 @@ export const createButtonLoader = (button, loadingText = 'chargement...') => {
     button.setAttribute('disabled', 'disabled')
     button.innerHTML = `
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        ${loadingText}
+        <span>${loadingText}</span>
     `
 }
 

@@ -51,3 +51,13 @@ app_user_delete:
     path: /dashboard/users/{id}
     controller: App\Controller\UserController::delete
     methods: DELETE
+
+app_command_index:
+    path: /dashboard/command
+    controller: App\Controller\CommandController::index
+    methods: GET
+
+app_command_execute:
+    path: /dashboard/command/{command}
+    controller: App\Controller\CommandController::execute
+    methods: POST

@@ -1,0 +1,74 @@
+{% extends '_layout/base.html.twig' %}
+
+{% block section %}
+    <div class="nk-block-head nk-block-head-sm">
+        <div class="nk-block-between">
+            <div class="nk-block-head-content">
+                <h3 class="nk-block-title page-title">Commandes</h3>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="card card-bordered">
+        <div class="card-inner-group">
+            <div class="card-inner">
+                <div class="between-center flex-wrap g-3">
+                    <div class="nk-block-text"><h6>bot fetch-timetable</h6>
+                        <p>Récupérer les tables de temps et les mettre en cache sur le serveur.</p>
+                    </div>
+                    <div class="nk-block-actions flex-shrink-sm-0">
+                        <div class="align-center flex-wrap flex-sm-nowrap gx-3 gy-2">
+                            <button data-command-button data-url="{{ path('app_command_execute', {command: 'bot:fetch-timetable'}) }}" class="btn btn-primary">
+                                exécuter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-inner">
+                <div class="between-center flex-wrap g-3">
+                    <div class="nk-block-text"><h6>bot telegram-push</h6>
+                        <p>Envoyer l'horaire aux utilisateurs abonnés</p>
+                    </div>
+                    <div class="nk-block-actions flex-shrink-sm-0">
+                        <div class="align-center flex-wrap flex-sm-nowrap gx-3 gy-2">
+                            <button data-command-button data-url="{{ path('app_command_execute', {command: 'bot:telegram-push'}) }}" class="btn btn-primary">
+                                exécuter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-inner">
+                <div class="between-center flex-wrap g-3">
+                    <div class="nk-block-text"><h6>bot web-scrape</h6>
+                        <p>Récupérer les pages de la table horaire et les mettre en cache sur le serveur.</p>
+                    </div>
+                    <div class="nk-block-actions flex-shrink-sm-0">
+                        <div class="align-center flex-wrap flex-sm-nowrap gx-3 gy-2">
+                            <button data-command-button data-url="{{ path('app_command_execute', {command: 'bot:web-scrape'}) }}" class="btn btn-primary">
+                                exécuter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-inner">
+                <div class="between-center flex-wrap g-3">
+                    <div class="nk-block-text"><h6>bot telegram-webhook</h6>
+                        <p>Configurer un webhook pour le robot telegram</p>
+                    </div>
+                    <div class="nk-block-actions flex-shrink-sm-0">
+                        <div class="align-center flex-wrap flex-sm-nowrap gx-3 gy-2">
+                            <button disabled data-command-button data-url="{{ path('app_command_execute', {command: 'bot:telegram-webhook'}) }}" class="btn btn-primary">
+                                exécuter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
