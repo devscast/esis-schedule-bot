@@ -75,11 +75,11 @@ class Subscription
     }
 
     /**
-     * @param string $name
+     * @param string|null $name
      * @return $this
      * @author bernard-ng <ngandubernard@gmail.com>
      */
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -188,7 +188,7 @@ class Subscription
     public static function fromMessageCommand(Message $message, string $promotion): self
     {
         return (new Subscription())
-            ->setName($message->getChat()->getUsername())
+            ->setName($message->getChat()->getUsername() ?: '')
             ->setPromotion($promotion)
             ->setChatId($message->getChat()->getId())
             ->setIsActive(true);
