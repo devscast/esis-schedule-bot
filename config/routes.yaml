@@ -61,3 +61,8 @@ app_command_execute:
     path: /dashboard/command/{command}
     controller: App\Controller\CommandController::execute
     methods: POST
+
+app_broadcast_index:
+    path: /dashboard/broadcast
+    controller: App\Controller\BroadcastController::index
+    methods: GET|POST

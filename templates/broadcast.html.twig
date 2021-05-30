@@ -1,0 +1,22 @@
+{% extends '_layout/base.html.twig' %}
+
+{% block section %}
+    <div class="nk-block-head nk-block-head-sm">
+        <div class="nk-block-between">
+            <div class="nk-block-head-content">
+                <h3 class="nk-block-title page-title">Message Broadcast</h3>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="card card-bordered">
+        <div class="card-inner">
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

@@ -4,21 +4,22 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Entity\Subscription;
+use App\DataTransfert\BroadcastData;
 use App\Service\Timetable\PromotionService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class SubscriptionType
+ * Class BroadcastType
  * @package App\Form
  * @author bernard-ng <ngandubernard@gmail.com>
  */
-class SubscriptionType extends AbstractType
+class BroadcastType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -28,12 +29,19 @@ class SubscriptionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, ['label' => 'Nom'])
-            ->add('chat_id', TextType::class, ['label' => 'Chat ID'])
-            ->add('promotion', ChoiceType::class, [
-                'choices' => array_flip(PromotionService::PROMOTIONS_FRIENDLY_ABBR)
+            ->add('message', TextareaType::class)
+            ->add('all', CheckboxType::class, [
+                'label' => 'Envoyer à tout le monde',
+                'required' => false
             ])
-            ->add('is_active', CheckboxType::class, ['label' => 'Abonnement actif']);
+            ->add('promotion', ChoiceType::class, [
+                'choices' => array_flip(PromotionService::PROMOTIONS_FRIENDLY_ABBR),
+                'required' => false,
+            ])
+            ->add('file', FileType::class, [
+                'label' => 'Document',
+                'required' => false
+            ]);
     }
 
     /**
@@ -43,7 +51,7 @@ class SubscriptionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Subscription::class,
+            'data_class' => BroadcastData::class,
         ]);
     }
 }

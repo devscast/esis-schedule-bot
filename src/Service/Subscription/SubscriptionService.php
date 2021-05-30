@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Subscription;
 
+use App\DataTransfert\BroadcastData;
 use App\Entity\Subscription;
 use App\Repository\SubscriptionRepository;
 use App\Service\Subscription\Exception\AlreadyHaveActiveSubscriptionException;
@@ -16,6 +17,7 @@ use App\Service\Timetable\PromotionService;
 use App\Service\Timetable\TimetableService;
 use CURLFile;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\InvalidArgumentException;
@@ -32,6 +34,7 @@ class SubscriptionService
     private SubscriptionRepository $repository;
     private BotApi $api;
     private TimetableService $timetable;
+    private LoggerInterface $logger;
 
     /**
      * SubscriptionService constructor.
@@ -45,12 +48,14 @@ class SubscriptionService
         EntityManagerInterface $em,
         SubscriptionRepository $repository,
         TimetableService $timetable,
-        BotApi $api
+        BotApi $api,
+        LoggerInterface $logger
     ) {
         $this->em = $em;
         $this->repository = $repository;
         $this->api = $api;
         $this->timetable = $timetable;
+        $this->logger = $logger;
     }
 
     /**
@@ -130,5 +135,39 @@ MESSAGE;
             new CURLFile($this->timetable->getTimetableDocument($subscription->getPromotion()), 'application/pdf'),
             sprintf($caption, $subscription->getName(), $subscription->getPromotion()),
         );
+    }
+
+
+    /**
+     * @param BroadcastData $data
+     * @author bernard-ng <ngandubernard@gmail.com>
+     */
+    public function broadcast(BroadcastData $data): void
+    {
+        $subscriptions = $data->all ?
+            $this->repository->findAll() :
+            $this->repository->findBy(['promotion' => $data->promotion]);
+
+        if ($data->file) {
+            foreach ($subscriptions as $subscription) {
+                try {
+                    $this->api->sendDocument(
+                        $subscription->getChatId(),
+                        new CURLFile($data->attachement, 'application/pdf'),
+                        $data->message
+                    );
+                } catch (\Exception $e) {
+                    $this->logger->error($e->getMessage(), $e->getTrace());
+                }
+            }
+        } else {
+            foreach ($subscriptions as $subscription) {
+                try {
+                    $this->api->sendMessage($subscription->getChatId(), $data->message);
+                } catch (\Exception $e) {
+                    $this->logger->error($e->getMessage(), $e->getTrace());
+                }
+            }
+        }
     }
 }
