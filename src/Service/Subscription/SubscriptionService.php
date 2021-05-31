@@ -68,17 +68,19 @@ class SubscriptionService
      * @throws SubscriptionEmptyPromotionException
      * @author bernard-ng <ngandubernard@gmail.com>
      */
-    public function subscribe(Message $message, string $promotion): void
+    public function subscribe(Message $message, string $promotion, bool $implicit = false): void
     {
         try {
             $promotion = PromotionService::toPromotionCode($promotion);
             $subscribed = $this->repository->findOneBy(['chat_id' => $message->getChat()->getId()]);
             if ($subscribed) {
-                if ($subscribed->isActive() === false || $subscribed->getPromotion() !== $promotion) {
-                    $subscribed->setPromotion($promotion)->setIsActive(true);
-                    $this->em->persist($subscribed);
-                } else {
-                    throw new AlreadyHaveActiveSubscriptionException();
+                if (!$implicit) {
+                    if ($subscribed->isActive() === false || $subscribed->getPromotion() !== $promotion) {
+                        $subscribed->setPromotion($promotion)->setIsActive(true);
+                        $this->em->persist($subscribed);
+                    } else {
+                        throw new AlreadyHaveActiveSubscriptionException();
+                    }
                 }
             } else {
                 $subscription = Subscription::fromMessageCommand($message, $promotion);

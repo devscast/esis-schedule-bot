@@ -110,7 +110,7 @@ class PromotionService
     public static function toPromotionCode(string $name): ?string
     {
         if (mb_strlen(strtoupper(trim($name))) !== 0) {
-            $code = self::fromFriendlyAbbr($name);
+            $code = self::fromFriendlyAbbr($name) ?: self::fromCode($name);
             if ($code !== null) {
                 return $code;
             }
@@ -126,7 +126,7 @@ class PromotionService
      */
     public static function fromCode(string $name): ?string
     {
-        if (isset(self::PROMOTIONS[$name])) {
+        if (in_array($name, self::PROMOTIONS)) {
             return $name;
         }
         return null;

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Subscriber;
 
 use App\Event\CommandEvent;
+use App\Event\ImplicitSubscriptionEvent;
 use App\Service\Subscription\Exception\AlreadyHaveActiveSubscriptionException;
 use App\Service\Subscription\Exception\EmptyPromotionException as SubscriptionEmptyPromotionException;
 use App\Service\Subscription\Exception\NonActiveSubscriptionFoundException;
@@ -62,7 +63,8 @@ class CommandSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            CommandEvent::class => 'onCommand'
+            CommandEvent::class => 'onCommand',
+            ImplicitSubscriptionEvent::class => 'onImplicitSubscription'
         ];
     }
 
@@ -131,8 +133,8 @@ class CommandSubscriber implements EventSubscriberInterface
                             $replyToMessageId
                         );
                     } catch (InvalidPromotionException |
-                        SubscriptionEmptyPromotionException |
-                        AlreadyHaveActiveSubscriptionException  $e
+                    SubscriptionEmptyPromotionException |
+                    AlreadyHaveActiveSubscriptionException  $e
                     ) {
                         $this->api->sendMessage($chatId, $e->getMessage(), null, false, $replyToMessageId);
                         $this->logger->error($e->getMessage(), $e->getTrace());
@@ -162,6 +164,19 @@ class CommandSubscriber implements EventSubscriberInterface
                     break;
             }
         } catch (InvalidArgumentException | Exception $e) {
+            $this->logger->error($e->getMessage(), $e->getTrace());
+        }
+    }
+
+    /**
+     * @param ImplicitSubscriptionEvent $event
+     * @author bernard-ng <ngandubernard@gmail.com>
+     */
+    public function onImplicitSubscription(ImplicitSubscriptionEvent $event): void
+    {
+        try {
+            $this->subscription->subscribe($event->getMessage(), $event->getArgument(), true);
+        } catch (SubscriptionEmptyPromotionException $e) {
             $this->logger->error($e->getMessage(), $e->getTrace());
         }
     }

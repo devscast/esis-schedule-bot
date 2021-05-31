@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Event\CommandEvent;
+use App\Event\ImplicitSubscriptionEvent;
 use App\Service\Timetable\PromotionService;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
@@ -58,6 +59,7 @@ class PlayLoadService
             } else {
                 $argument = PromotionService::fromFriendlyAbbr($message->getText());
                 if ($argument !== null) {
+                    $this->dispatcher->dispatch(new ImplicitSubscriptionEvent($message, $argument));
                     $this->dispatcher->dispatch(new CommandEvent($message, '/horaire', $argument));
                 }
             }
