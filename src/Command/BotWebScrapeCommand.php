@@ -19,33 +19,17 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class BotWebScrapeCommand extends Command
 {
     protected static $defaultName = 'bot:web-scrape';
-    private ScrapingService $service;
 
-    /**
-     * BotWebScrapeCommand constructor.
-     * @param ScrapingService $service
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
-    public function __construct(ScrapingService $service)
+    public function __construct(private ScrapingService $service)
     {
         parent::__construct('bot:web-scrape');
-        $this->service = $service;
     }
 
-    /**
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     protected function configure()
     {
         $this->setDescription('Fetch time table pages and cache them on the server');
     }
-
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
+    
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

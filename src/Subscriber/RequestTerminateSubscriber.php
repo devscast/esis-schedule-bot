@@ -17,22 +17,11 @@ use Symfony\Component\HttpKernel\Event\TerminateEvent;
  */
 class RequestTerminateSubscriber implements EventSubscriberInterface
 {
-    private EntityManagerInterface $em;
 
-    /**
-     * RequestTerminateSubscriber constructor.
-     * @param EntityManagerInterface $em
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(private EntityManagerInterface $em)
     {
-        $this->em = $em;
     }
 
-    /**
-     * @return string[]
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -40,17 +29,11 @@ class RequestTerminateSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param TerminateEvent $event
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function onKernelTerminate(TerminateEvent $event)
     {
         $request = $event->getRequest();
         $response = $event->getResponse();
-
-
-        $micro = (int) $request->server->get('REQUEST_TIME_FLOAT');
+        $micro = (int)$request->server->get('REQUEST_TIME_FLOAT');
 
         if ($request->getMethod() === 'POST') {
             $log = (new Request())

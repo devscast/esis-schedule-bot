@@ -20,10 +20,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class MainController extends CRUDController
 {
-    /**
-     * @return Response
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function index(): Response
     {
         return new RedirectResponse("https://t.me/EsisHoraireBot", Response::HTTP_TEMPORARY_REDIRECT);
@@ -31,10 +27,6 @@ class MainController extends CRUDController
 
     /**
      * @IsGranted("IS_AUTHENTICATED_FULLY")
-     * @param Request $request
-     * @param RequestRepository $repository
-     * @return Response
-     * @author bernard-ng <ngandubernard@gmail.com>
      */
     public function dashboard(Request $request, RequestRepository $repository): Response
     {
@@ -48,11 +40,6 @@ class MainController extends CRUDController
         return $this->crudIndex($request, null, compact('days', 'weeks', 'months'));
     }
 
-    /**
-     * @param string $period
-     * @return array
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     private function getInterval(string $period): array
     {
         $interval = Period::before(new DateTimeImmutable('now +1 DAY'), "1 {$period}");

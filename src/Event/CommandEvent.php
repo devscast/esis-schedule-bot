@@ -13,46 +13,23 @@ use TelegramBot\Api\Types\Message;
  */
 class CommandEvent
 {
-    private string $command;
-    private ?string $argument;
-    private Message $message;
-
-    /**
-     * CommandEvent constructor
-     * @param Message $message .
-     * @param string $command
-     * @param ?string $argument
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
-    public function __construct(Message $message, string $command, ?string $argument = null)
-    {
-        $this->message = $message;
-        $this->command = $command;
-        $this->argument = $argument;
+    public function __construct(
+        private Message $message,
+        private string $command,
+        private ?string $argument = null
+    ) {
     }
 
-    /**
-     * @return string
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getCommand(): string
     {
         return $this->command;
     }
 
-    /**
-     * @return null|string
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getArgument(): ?string
     {
         return $this->argument;
     }
 
-    /**
-     * @return Message
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getMessage(): Message
     {
         return $this->message;

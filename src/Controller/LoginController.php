@@ -15,10 +15,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
  */
 class LoginController extends AbstractController
 {
-    /**
-     * @param AuthenticationUtils $authenticationUtils
-     * @return Response
-     */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
@@ -30,9 +26,6 @@ class LoginController extends AbstractController
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
-    /**
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function logout()
     {
         throw new \LogicException(

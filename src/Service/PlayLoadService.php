@@ -8,7 +8,6 @@ use App\Event\CommandEvent;
 use App\Event\ImplicitSubscriptionEvent;
 use App\Service\Timetable\PromotionService;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use TelegramBot\Api\Types\Update;
 
@@ -19,25 +18,14 @@ use TelegramBot\Api\Types\Update;
  */
 class PlayLoadService
 {
-    private EventDispatcherInterface $dispatcher;
-    private LoggerInterface $logger;
-
-    /**
-     * PlayLoadService constructor.
-     * @param EventDispatcherInterface $dispatcher
-     * @param LoggerInterface $logger
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
-    public function __construct(EventDispatcherInterface $dispatcher, LoggerInterface $logger)
-    {
-        $this->dispatcher = $dispatcher;
-        $this->logger = $logger;
+    public function __construct(
+        private EventDispatcherInterface $dispatcher,
+        private PromotionService $promotionService
+    ) {
     }
 
     /**
      * Process Telegram webhook event and dispatch internal event
-     * @param Request $request
-     * @author bernard-ng <ngandubernard@gmail.com>
      */
     public function negotiate(Request $request)
     {
@@ -52,15 +40,13 @@ class PlayLoadService
                         $command = trim(substr($message->getText(), $entity->getOffset(), $entity->getLength()));
                         $argument = trim(str_replace($command, "", $message->getText()));
                         $this->dispatcher->dispatch(new CommandEvent($message, $command, $argument));
-                    } else {
-                        continue;
                     }
                 }
             } else {
-                $argument = PromotionService::fromFriendlyAbbr($message->getText());
-                if ($argument !== null) {
-                    $this->dispatcher->dispatch(new ImplicitSubscriptionEvent($message, $argument));
-                    $this->dispatcher->dispatch(new CommandEvent($message, '/horaire', $argument));
+                $promotion = $this->promotionService->getPromotionFromName($message->getText());
+                if ($promotion !== null) {
+                    $this->dispatcher->dispatch(new ImplicitSubscriptionEvent($message, $promotion->getName()));
+                    $this->dispatcher->dispatch(new CommandEvent($message, '/horaire', $promotion->getName()));
                 }
             }
         }

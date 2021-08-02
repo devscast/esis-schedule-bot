@@ -51,38 +51,21 @@ class Promotion
      */
     private ?DateTimeInterface $created_at = null;
 
-    /**
-     * Promotion constructor.
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function __construct()
     {
         $this->created_at = new DateTimeImmutable();
     }
 
-    /**
-     * @return int|null
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string|null
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return $this
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -90,20 +73,11 @@ class Promotion
         return $this;
     }
 
-    /**
-     * @return string|null
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getCode(): ?string
     {
         return $this->code;
     }
 
-    /**
-     * @param string $code
-     * @return $this
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function setCode(string $code): self
     {
         $this->code = $code;
@@ -111,20 +85,11 @@ class Promotion
         return $this;
     }
 
-    /**
-     * @return string|null
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getLink(): ?string
     {
         return $this->link;
     }
 
-    /**
-     * @param string|null $link
-     * @return $this
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function setLink(?string $link): self
     {
         $this->link = $link;
@@ -132,20 +97,11 @@ class Promotion
         return $this;
     }
 
-    /**
-     * @return string|null
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getFile(): ?string
     {
         return $this->file;
     }
 
-    /**
-     * @param string|null $file
-     * @return $this
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function setFile(?string $file): self
     {
         $this->file = $file;
@@ -153,20 +109,11 @@ class Promotion
         return $this;
     }
 
-    /**
-     * @return DateTimeInterface|null
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updated_at;
     }
 
-    /**
-     * @param DateTimeInterface|null $updated_at
-     * @return $this
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function setUpdatedAt(?DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
@@ -174,20 +121,11 @@ class Promotion
         return $this;
     }
 
-    /**
-     * @return DateTimeInterface|null
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->created_at;
     }
 
-    /**
-     * @param DateTimeInterface $created_at
-     * @return $this
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function setCreatedAt(DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;

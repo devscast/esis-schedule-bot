@@ -54,20 +54,11 @@ class Request
         return $this->id;
     }
 
-    /**
-     * @return DateTimeInterface|null
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getRequestedAt(): ?DateTimeInterface
     {
         return $this->requested_at;
     }
 
-    /**
-     * @param DateTimeInterface $requested_at
-     * @return $this
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function setRequestedAt(DateTimeInterface $requested_at): self
     {
         $this->requested_at = $requested_at;
@@ -75,20 +66,11 @@ class Request
         return $this;
     }
 
-    /**
-     * @return DateTimeInterface|null
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getRespondedAt(): ?DateTimeInterface
     {
         return $this->responded_at;
     }
 
-    /**
-     * @param DateTimeInterface|null $responded_at
-     * @return $this
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function setRespondedAt(?DateTimeInterface $responded_at): self
     {
         $this->responded_at = $responded_at;
@@ -96,40 +78,22 @@ class Request
         return $this;
     }
 
-    /**
-     * @return string|null
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getPayload(): ?string
     {
         return $this->payload;
     }
 
-    /**
-     * @param string|null $payload
-     * @return $this
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function setPayload(?string $payload): self
     {
         $this->payload = $payload;
         return $this;
     }
 
-    /**
-     * @return string|null
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getMethod(): ?string
     {
         return $this->method;
     }
 
-    /**
-     * @param string $method
-     * @return $this
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function setMethod(string $method): self
     {
         $this->method = $method;
@@ -137,20 +101,11 @@ class Request
         return $this;
     }
 
-    /**
-     * @return int|null
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getResponseCode(): ?int
     {
         return $this->response_code;
     }
 
-    /**
-     * @param int|null $response_code
-     * @return $this
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function setResponseCode(?int $response_code): self
     {
         $this->response_code = $response_code;

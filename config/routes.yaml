@@ -73,6 +73,16 @@ app_promotion_index:
     methods: GET
 
 app_promotion_edit:
-    path: /dashboard/promotion
+    path: /dashboard/promotion/{promotion}
     controller: App\Contrller\PromotionController:edit
     methods: GET|POST
+
+app_promotion_new:
+    path: /dashboard/promotion/new
+    controller: App\Controller\PromotionController:new
+    methods: GET|POST
+
+app_promotion_delete:
+    path: /dashboard/promotion/{promotion}
+    controller: App\Controller\PromotionController:delete
+    methods: DELETE

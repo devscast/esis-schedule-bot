@@ -30,23 +30,11 @@ class UserController extends CRUDController
         'form' => "_includes/_forms.html.twig"
     ];
 
-
-    /**
-     * @param Request $request
-     * @return Response
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function index(Request $request): Response
     {
         return $this->crudIndex($request);
     }
 
-    /**
-     * @param Request $request
-     * @param User $item
-     * @return Response
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function delete(Request $request, User $item): Response
     {
         return $this->crudDelete($item, $request);

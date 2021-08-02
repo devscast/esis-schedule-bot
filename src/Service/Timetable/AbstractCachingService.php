@@ -18,12 +18,6 @@ abstract class AbstractCachingService
     protected string $root;
     protected Filesystem $fs;
 
-    /**
-     * ScrapingService constructor.
-     * @param KernelInterface $kernel
-     * @param Filesystem $fs
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function __construct(KernelInterface $kernel, Filesystem $fs)
     {
         $root = $kernel->getProjectDir() . static::CACHE_PATH;
@@ -32,7 +26,6 @@ abstract class AbstractCachingService
         }
 
         $this->root = $root;
-        $this->fs = $fs;
         $this->fs = $fs;
     }
 }

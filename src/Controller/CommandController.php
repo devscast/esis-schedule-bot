@@ -25,21 +25,13 @@ class CommandController extends AbstractController
         'bot:web-scrape',
     ];
 
-    /**
-     * @return Response
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function index(): Response
     {
         return $this->render("command.html.twig");
     }
 
     /**
-     * @param string $command
-     * @param KernelInterface $kernel
-     * @return Response
      * @throws \Exception
-     * @author bernard-ng <ngandubernard@gmail.com>
      */
     public function execute(string $command, KernelInterface $kernel): Response
     {

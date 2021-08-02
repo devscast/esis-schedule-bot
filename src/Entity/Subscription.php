@@ -47,38 +47,21 @@ class Subscription
      */
     private ?bool $is_active = true;
 
-    /**
-     * Subscription constructor.
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function __construct()
     {
         $this->created_at = new DateTimeImmutable();
     }
 
-    /**
-     * @return int|null
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string|null
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string|null $name
-     * @return $this
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function setName(?string $name): self
     {
         $this->name = $name;
@@ -86,20 +69,11 @@ class Subscription
         return $this;
     }
 
-    /**
-     * @return int|null
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getChatId(): ?int
     {
         return $this->chat_id;
     }
 
-    /**
-     * @param int $chat_id
-     * @return $this
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function setChatId(int $chat_id): self
     {
         $this->chat_id = $chat_id;
@@ -107,20 +81,11 @@ class Subscription
         return $this;
     }
 
-    /**
-     * @return string|null
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getPromotion(): ?string
     {
         return $this->promotion;
     }
 
-    /**
-     * @param string $promotion
-     * @return $this
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function setPromotion(string $promotion): self
     {
         $this->promotion = $promotion;
@@ -128,20 +93,11 @@ class Subscription
         return $this;
     }
 
-    /**
-     * @return DateTimeInterface|null
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->created_at;
     }
 
-    /**
-     * @param DateTimeInterface $created_at
-     * @return $this
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function setCreatedAt(DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
@@ -149,29 +105,16 @@ class Subscription
         return $this;
     }
 
-    /**
-     * @return bool|null
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getIsActive(): ?bool
     {
         return $this->is_active;
     }
 
-    /**
-     * @return bool|null
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function isActive(): ?bool
     {
         return $this->is_active;
     }
 
-    /**
-     * @param bool $is_active
-     * @return $this
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function setIsActive(bool $is_active): self
     {
         $this->is_active = $is_active;
@@ -179,12 +122,6 @@ class Subscription
         return $this;
     }
 
-    /**
-     * @param Message $message
-     * @param string $promotion
-     * @return self
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public static function fromMessageCommand(Message $message, string $promotion): self
     {
         return (new Subscription())

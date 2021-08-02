@@ -31,36 +31,16 @@ use TelegramBot\Api\Types\ReplyKeyboardRemove;
  */
 class CommandSubscriber implements EventSubscriberInterface
 {
-    private TimetableService $timetable;
-    private BotApi $api;
-    private LoggerInterface $logger;
-    private SubscriptionService $subscription;
-
-    /**
-     * CommandSubscriber constructor.
-     * @param TimetableService $timetable
-     * @param SubscriptionService $subscription
-     * @param LoggerInterface $logger
-     * @param BotApi $api
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function __construct(
-        TimetableService $timetable,
-        SubscriptionService $subscription,
-        LoggerInterface $logger,
-        BotApi $api
+        private TimetableService $timetable,
+        private SubscriptionService $subscription,
+        private PromotionService $promotionService,
+        private LoggerInterface $logger,
+        private BotApi $api
     ) {
-        $this->timetable = $timetable;
-        $this->api = $api;
-        $this->logger = $logger;
-        $this->subscription = $subscription;
     }
 
-    /**
-     * @return string[]
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             CommandEvent::class => 'onCommand',
@@ -68,11 +48,7 @@ class CommandSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param CommandEvent $event
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
-    public function onCommand(CommandEvent $event)
+    public function onCommand(CommandEvent $event): void
     {
         $messageId = $event->getMessage()->getMessageId();
         $messageType = $event->getMessage()->getChat()->getType();
@@ -90,34 +66,40 @@ class CommandSubscriber implements EventSubscriberInterface
                     try {
                         $file = $this->timetable->getTimetableDocument($event->getArgument());
                         $this->api->sendDocument(
-                            $chatId,
-                            new CURLFile($file, 'application/pdf'),
-                            "Voici l'horaire demandé",
-                            $replyToMessageId
+                            chatId: $chatId,
+                            document: new CURLFile($file, 'application/pdf'),
+                            caption: "Voici l'horaire demandé",
+                            replyToMessageId: $replyToMessageId
                         );
                     } catch (InvalidPromotionException | EmptyPromotionException | UnavailableTimetableException $e) {
-                        $this->api->sendMessage($chatId, $e->getMessage(), null, false, $replyToMessageId);
+                        $this->api->sendMessage(
+                            chatId: $chatId,
+                            text: $e->getMessage(),
+                            disablePreview: false,
+                            replyToMessageId: $replyToMessageId
+                        );
                         $this->logger->error($e->getMessage(), $e->getTrace());
                     }
                     break;
 
                 case '/start@EsisHoraireBot':
                 case '/start':
-                    $keyboard = new ReplyKeyboardMarkup(PromotionService::KEYBOARD_MAKEUP, true);
                     $this->api->sendMessage(
-                        $chatId,
-                        "Horaire Esis Salama Disponible",
-                        null,
-                        false,
-                        $replyToMessageId,
-                        $keyboard
+                        chatId: $chatId,
+                        text: null,
+                        disablePreview: false,
+                        replyMarkup: new ReplyKeyboardRemove()
                     );
-                    break;
-
-                case '/removeKeyboard@EsisHoraireBot':
-                case '/removeKeyboard':
-                    $keyboard = new ReplyKeyboardRemove();
-                    $this->api->sendMessage($chatId(), null, null, false, null, $keyboard);
+                    $this->api->sendMessage(
+                        chatId: $chatId,
+                        text: "Horaire Esis Salama Disponible",
+                        disablePreview: false,
+                        replyToMessageId: $replyToMessageId,
+                        replyMarkup: new ReplyKeyboardMarkup(
+                            keyboard: $this->promotionService->getKeyboardMarkup(),
+                            oneTimeKeyboard: true
+                        )
+                    );
                     break;
 
                 case '/subscribe@EsisHoraireBot':
@@ -125,18 +107,22 @@ class CommandSubscriber implements EventSubscriberInterface
                     try {
                         $this->subscription->subscribe($event->getMessage(), $event->getArgument());
                         $this->api->sendMessage(
-                            $chatId,
-                            "✔️ Abonnement effectué avec succès, 
+                            chatId: $chatId,
+                            text: "✔️ Abonnement effectué avec succès, 
                             vous recevrez automatiquement l'horaire chaque samedi à 9h",
-                            null,
-                            false,
-                            $replyToMessageId
+                            disablePreview: false,
+                            replyToMessageId: $replyToMessageId
                         );
                     } catch (InvalidPromotionException |
-                    SubscriptionEmptyPromotionException |
-                    AlreadyHaveActiveSubscriptionException  $e
+                        SubscriptionEmptyPromotionException |
+                        AlreadyHaveActiveSubscriptionException  $e
                     ) {
-                        $this->api->sendMessage($chatId, $e->getMessage(), null, false, $replyToMessageId);
+                        $this->api->sendMessage(
+                            chatId: $chatId,
+                            text: $e->getMessage(),
+                            disablePreview: false,
+                            replyToMessageId: $replyToMessageId
+                        );
                         $this->logger->error($e->getMessage(), $e->getTrace());
                     }
                     break;
@@ -146,21 +132,28 @@ class CommandSubscriber implements EventSubscriberInterface
                     try {
                         $this->subscription->unsubscribe($event->getMessage());
                         $this->api->sendMessage(
-                            $chatId,
-                            "✔ Désabonnement effectué avec succès",
-                            null,
-                            false,
-                            $replyToMessageId
+                            chatId: $chatId,
+                            text: "✔ Désabonnement effectué avec succès",
+                            disablePreview: false,
+                            replyToMessageId: $replyToMessageId
                         );
                     } catch (NonActiveSubscriptionFoundException  $e) {
-                        $this->api->sendMessage($chatId, $e->getMessage(), null, false, $replyToMessageId);
+                        $this->api->sendMessage(
+                            chatId: $chatId,
+                            text: $e->getMessage(),
+                            disablePreview: false,
+                            replyToMessageId: $replyToMessageId
+                        );
                         $this->logger->error($e->getMessage(), $e->getTrace());
                     }
                     break;
 
                 default:
                     $command = $event->getCommand();
-                    $this->api->sendMessage($chatId, "⚠️ Commande Indisponible (${command})");
+                    $this->api->sendMessage(
+                        chatId: $chatId,
+                        text: "⚠️ Commande Indisponible ($command)"
+                    );
                     break;
             }
         } catch (InvalidArgumentException | Exception $e) {
@@ -168,15 +161,15 @@ class CommandSubscriber implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @param ImplicitSubscriptionEvent $event
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function onImplicitSubscription(ImplicitSubscriptionEvent $event): void
     {
         try {
-            $this->subscription->subscribe($event->getMessage(), $event->getArgument(), true);
-        } catch (SubscriptionEmptyPromotionException $e) {
+            $this->subscription->subscribe(
+                message: $event->getMessage(),
+                promotion: $event->getArgument(),
+                implicit: true
+            );
+        } catch (SubscriptionEmptyPromotionException | AlreadyHaveActiveSubscriptionException $e) {
             $this->logger->error($e->getMessage(), $e->getTrace());
         }
     }

@@ -21,9 +21,6 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class BroadcastController extends AbstractController
 {
-    /**
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function index(Request $request, SubscriptionService $service, KernelInterface $kernel): Response
     {
         $data = new BroadcastData();

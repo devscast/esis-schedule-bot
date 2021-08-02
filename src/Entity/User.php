@@ -36,11 +36,6 @@ class User implements UserInterface
      */
     private ?string $password = null;
 
-    /**
-     * @param string $email
-     * @return User
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public static function fromCommand(string $email): User
     {
         return (new User())
@@ -48,29 +43,16 @@ class User implements UserInterface
             ->setRoles(["ROLE_USER", "ROLE_ADMIN"]);
     }
 
-    /**
-     * @return int|null
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string|null
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     * @return $this
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -100,11 +82,6 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
-    /**
-     * @param array $roles
-     * @return $this
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -120,11 +97,6 @@ class User implements UserInterface
         return (string)$this->password;
     }
 
-    /**
-     * @param string $password
-     * @return $this
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function setPassword(string $password): self
     {
         $this->password = $password;

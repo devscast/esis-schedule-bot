@@ -15,12 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class WebhookController
 {
-    /**
-     * @param Request $request
-     * @param PlayLoadService $service
-     * @return Response
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function index(Request $request, PlayLoadService $service): Response
     {
         $service->negotiate($request);

@@ -34,18 +34,23 @@ class PromotionController extends CRUDController
         'form' => "_includes/_forms.html.twig"
     ];
 
-    /**
-     * @param Request $request
-     * @return Response
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function index(Request $request): Response
     {
-       return $this->crudIndex($request);
+        return $this->crudIndex($request);
     }
 
-    public function edit(): Response
+    public function new(Request $request): Response
     {
-        return $this->render('promotion/edit.html.twig');
+        return $this->crudNew($request);
+    }
+
+    public function edit(Promotion $item, Request $request): Response
+    {
+        return $this->crudEdit($item, $request);
+    }
+
+    public function delete(Promotion $item, Request $request): Response
+    {
+        return $this->crudDelete($item, $request);
     }
 }

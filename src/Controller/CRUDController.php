@@ -21,7 +21,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 abstract class CRUDController extends AbstractController
 {
-    protected EntityManagerInterface $em;
     protected string $entity = '';
     protected string $form = '';
     protected const FILTERABLE_FIELDS = [];
@@ -38,33 +37,14 @@ abstract class CRUDController extends AbstractController
         'delete' => '',
         'form' => '_includes/_forms.html.twig'
     ];
-    protected PaginatorInterface $paginator;
-    protected EventDispatcherInterface $dispatcher;
 
-    /**
-     * CRUDController constructor.
-     * @param EntityManagerInterface $em
-     * @param PaginatorInterface $paginator
-     * @param EventDispatcherInterface $dispatcher
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function __construct(
-        EntityManagerInterface $em,
-        PaginatorInterface $paginator,
-        EventDispatcherInterface $dispatcher
+        protected EntityManagerInterface $em,
+        protected PaginatorInterface $paginator,
+        protected EventDispatcherInterface $dispatcher
     ) {
-        $this->em = $em;
-        $this->paginator = $paginator;
-        $this->dispatcher = $dispatcher;
     }
 
-    /**
-     * @param Request $request
-     * @param QueryBuilder|null $qb
-     * @param array $context
-     * @return Response
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function crudIndex(Request $request, ?QueryBuilder $qb = null, array $context = []): Response
     {
         $page = $request->query->getInt('page', 1);
@@ -82,17 +62,11 @@ abstract class CRUDController extends AbstractController
 
         $items = $this->paginator->paginate($qb->orderBy("item.id", "DESC"), $page, 50);
         return $this->render($this->views['index'], [
-            'items' => $items,
-            'search_filters' => static::FILTERABLE_FIELDS,
-        ] + $context);
+                'items' => $items,
+                'search_filters' => static::FILTERABLE_FIELDS,
+            ] + $context);
     }
 
-    /**
-     * @param Request $request
-     * @param Closure|null $callback
-     * @return Response
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function crudNew(Request $request, ?Closure $callback = null): Response
     {
         $data = new $this->entity;
@@ -127,13 +101,6 @@ abstract class CRUDController extends AbstractController
         return $this->render($this->views['new'], compact('form'));
     }
 
-    /**
-     * @param object $item
-     * @param Request $request
-     * @param Closure|null $callback
-     * @return Response
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function crudEdit(object $item, Request $request, ?Closure $callback = null): Response
     {
         $form = $this->createForm($this->form, $item);
@@ -169,12 +136,6 @@ abstract class CRUDController extends AbstractController
         return $this->render($this->route['edit'], compact('form'));
     }
 
-    /**
-     * @param object $item
-     * @param Request $request
-     * @return Response
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function crudDelete(object $item, Request $request): Response
     {
         $token = $request->request->get('_token');

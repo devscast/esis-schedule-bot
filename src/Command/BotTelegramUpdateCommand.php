@@ -19,33 +19,17 @@ use TelegramBot\Api\Exception;
 class BotTelegramUpdateCommand extends Command
 {
     protected static $defaultName = 'bot:telegram-update';
-    private BotApi $api;
 
-    /**
-     * BotSetTelegramWebhookCommand constructor.
-     * @param BotApi $api
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
-    public function __construct(BotApi $api)
+    public function __construct(private BotApi $api)
     {
         parent::__construct('bot:telegram-update');
-        $this->api = $api;
     }
 
-    /**
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     protected function configure()
     {
         $this->setDescription('Get a update from telegram bot');
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

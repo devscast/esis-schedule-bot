@@ -20,22 +20,12 @@ use TelegramBot\Api\Exception;
 class BotTelegramWebhookCommand extends Command
 {
     protected static $defaultName = 'bot:telegram-webhook';
-    private BotApi $api;
 
-    /**
-     * BotSetTelegramWebhookCommand constructor.
-     * @param BotApi $api
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
-    public function __construct(BotApi $api)
+    public function __construct(private BotApi $api)
     {
         parent::__construct('bot:telegram-webhook');
-        $this->api = $api;
     }
 
-    /**
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     protected function configure()
     {
         $this
@@ -43,12 +33,6 @@ class BotTelegramWebhookCommand extends Command
             ->addArgument('url', InputArgument::OPTIONAL, 'webhook url');
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

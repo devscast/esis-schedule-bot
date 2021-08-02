@@ -34,44 +34,21 @@ class SubscriptionController extends CRUDController
         'form' => "_includes/_forms.html.twig"
     ];
 
-
-    /**
-     * @param Request $request
-     * @return Response
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function index(Request $request): Response
     {
         return $this->crudIndex($request);
     }
 
-    /**
-     * @param Request $request
-     * @return Response
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function new(Request $request): Response
     {
         return $this->crudNew($request);
     }
 
-    /**
-     * @param Request $request
-     * @param Subscription $item
-     * @return Response
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function edit(Request $request, Subscription $item): Response
     {
         return $this->crudEdit($item, $request);
     }
 
-    /**
-     * @param Request $request
-     * @param Subscription $item
-     * @return Response
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     public function delete(Request $request, Subscription $item): Response
     {
         return $this->crudDelete($item, $request);

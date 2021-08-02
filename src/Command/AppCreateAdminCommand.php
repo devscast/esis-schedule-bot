@@ -21,25 +21,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class AppCreateAdminCommand extends Command
 {
     protected static $defaultName = 'app:create-admin';
-    private UserPasswordEncoderInterface $encoder;
-    private EntityManagerInterface $em;
 
-    /**
-     * AppCreateAdminCommand constructor.
-     * @param UserPasswordEncoderInterface $encoder
-     * @param EntityManagerInterface $em
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
-    public function __construct(UserPasswordEncoderInterface $encoder, EntityManagerInterface $em)
-    {
+    public function __construct(
+        private UserPasswordEncoderInterface $encoder,
+        private EntityManagerInterface $em
+    ) {
         parent::__construct("app:create-admin");
-        $this->encoder = $encoder;
-        $this->em = $em;
     }
 
-    /**
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     protected function configure()
     {
         $this
@@ -48,12 +37,6 @@ class AppCreateAdminCommand extends Command
             ->addArgument("password", InputArgument::REQUIRED, "the user password");
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

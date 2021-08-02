@@ -6,6 +6,7 @@ namespace App\Command;
 
 use App\Repository\SubscriptionRepository;
 use App\Service\Subscription\SubscriptionService;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,25 +20,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 class BotTelegramPushCommand extends Command
 {
     protected static $defaultName = 'bot:telegram-push';
-    private SubscriptionService $service;
-    private SubscriptionRepository $repository;
 
-    /**
-     * PushNotificationCommand constructor.
-     * @param SubscriptionService $service
-     * @param SubscriptionRepository $repository
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
-    public function __construct(SubscriptionService $service, SubscriptionRepository $repository)
-    {
+    public function __construct(
+        private SubscriptionService $service,
+        private SubscriptionRepository $repository
+    ) {
         parent::__construct("bot:telegram-push");
-        $this->service = $service;
-        $this->repository = $repository;
     }
 
-    /**
-     * @author bernard-ng <ngandubernard@gmail.com>
-     */
     protected function configure()
     {
         $this->setDescription('Send timetable to subscribed users');
@@ -45,10 +35,6 @@ class BotTelegramPushCommand extends Command
 
     /**
      * TODO: this is an 0(n) notification process, find a way to improve this
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     * @author bernard-ng <ngandubernard@gmail.com>
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -60,7 +46,7 @@ class BotTelegramPushCommand extends Command
             try {
                 $progress->advance();
                 $this->service->notify($subscription);
-            } catch (\Exception $e) {
+            } catch (Exception) {
                 continue;
             }
         }
