@@ -66,3 +66,13 @@ app_broadcast_index:
     path: /dashboard/broadcast
     controller: App\Controller\BroadcastController::index
     methods: GET|POST
+
+app_promotion_index:
+    path: /dashboard/promotion
+    controller: App\Controller\PromotionController::index
+    methods: GET
+
+app_promotion_edit:
+    path: /dashboard/promotion
+    controller: App\Contrller\PromotionController:edit
+    methods: GET|POST

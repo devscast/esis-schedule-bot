@@ -7,12 +7,14 @@ namespace App\Controller;
 use App\DataTransfert\BroadcastData;
 use App\Form\BroadcastType;
 use App\Service\Subscription\SubscriptionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
+ * @IsGranted("IS_AUTHENTICATED_FULLY")
  * Class BroadcastController
  * @package App\Controller
  * @author bernard-ng <ngandubernard@gmail.com>

@@ -1,0 +1,54 @@
+{% extends '_layout/base.html.twig' %}
+
+{% block section %}
+    <div class="nk-block-head nk-block-head-sm">
+        <div class="nk-block-between">
+            <div class="nk-block-head-content">
+                <h3 class="nk-block-title page-title">Promotions</h3>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="card card-preview">
+        <table class="table table-orders">
+            <thead class="tb-odr-head">
+            <tr class="tb-odr-item">
+                <th>Name</th>
+                <th>Code</th>
+                <th>Link</th>
+                <th>File</th>
+                <th>Updated At</th>
+                <th class="tb-odr-action">&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody class="tb-odr-body">
+            {% for item in items %}
+                <tr class="tb-odr-item">
+                    <td>{{ item.name }}</td>
+                    <td class="fw-bolder">{{ item.code }}</td>
+                    <td class="fw-bolder">{{ item.link }}</td>
+                    <td>{{ item.updatedAt | date }}</td>
+                    <td>{{ item.file }}</td>
+                    <td class="tb-odr-action">
+                        <div class="tb-odr-btns d-none d-md-inline">
+                            <a href="#" title="Edit"
+                               data-create-button
+                               data-url="{{ path('app_promotion_edit', {id: item.id}) }}"
+                               data-toggle="modal"
+                               data-target="#promotion_{{ item.id }}" class="btn btn-dim btn-primary d-none d-md-inline-flex">
+                                <span>Éditer</span>
+                            </a>
+                        </div>
+                    </td>
+                    {{ include('_includes/_modal.html.twig', {id: "promotion_#{ item.id }", title: 'Éditer Promotion'}) }}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="mt-5 d-flex align-center justify-center">
+        {{ knp_pagination_render(items) }}
+    </div>
+{% endblock %}
