@@ -44,7 +44,7 @@ class PlayLoadService
                 }
             } else {
                 $promotion = $this->promotionService->getPromotionFromName($message->getText());
-                if ($promotion !== null) {
+                if (null !== $promotion) {
                     $this->dispatcher->dispatch(new ImplicitSubscriptionEvent($message, $promotion->getName()));
                     $this->dispatcher->dispatch(new CommandEvent($message, '/horaire', $promotion->getName()));
                 }

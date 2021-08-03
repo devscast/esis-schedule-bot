@@ -78,6 +78,7 @@ class CommandSubscriber implements EventSubscriberInterface
                             disablePreview: false,
                             replyToMessageId: $replyToMessageId
                         );
+                    } catch (Exception $e) {
                         $this->logger->error($e->getMessage(), $e->getTrace());
                     }
                     break;
@@ -88,7 +89,9 @@ class CommandSubscriber implements EventSubscriberInterface
                         chatId: $chatId,
                         text: null,
                         disablePreview: false,
-                        replyMarkup: new ReplyKeyboardRemove()
+                        replyMarkup: new ReplyKeyboardRemove(
+                            remove_keyboard: true
+                        )
                     );
                     $this->api->sendMessage(
                         chatId: $chatId,
@@ -97,7 +100,7 @@ class CommandSubscriber implements EventSubscriberInterface
                         replyToMessageId: $replyToMessageId,
                         replyMarkup: new ReplyKeyboardMarkup(
                             keyboard: $this->promotionService->getKeyboardMarkup(),
-                            oneTimeKeyboard: true
+                            oneTimeKeyboard: false
                         )
                     );
                     break;

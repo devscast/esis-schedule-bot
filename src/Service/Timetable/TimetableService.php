@@ -36,7 +36,7 @@ class TimetableService extends AbstractCachingService
      * @throws UnavailableTimetableException
      * @author bernard-ng <ngandubernard@gmail.com>
      */
-    public function getTimetableDocument(string $promotion): ?string
+    public function getTimetableDocument(string $promotion): string
     {
         if (mb_strlen($promotion) !== 0) {
             $promotion = $this->promotionService->getPromotionFromName($promotion);
@@ -62,7 +62,7 @@ class TimetableService extends AbstractCachingService
     {
         $this->fs->dumpFile(
             filename: $this->root . "HORAIRE_{$promotion->getCode()}.pdf",
-            content: @file_get_contents($promotion->getLink())
+            content: stream_get_contents(fopen($promotion->getLink(), 'r'))
         );
     }
 }

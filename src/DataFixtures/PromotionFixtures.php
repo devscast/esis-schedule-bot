@@ -12,12 +12,12 @@ class PromotionFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        foreach (PromotionService::PROMOTIONS_FRIENDLY_ABBR as $abbr => $name) {
+        foreach (PromotionService::PROMOTIONS_FRIENDLY_ABBR as $code => $name) {
             $manager->persist(
                 (new Promotion())
-                    ->setLink(sprintf(TimetableService::BASE_URL, $abbr))
-                    ->setFile(sprintf(TimetableService::BASE_URL, $abbr))
-                    ->setCode($abbr)
+                    ->setLink(str_ireplace(' ', '%20', sprintf(TimetableService::BASE_URL, $code)))
+                    ->setFile(str_ireplace(' ', '%20', sprintf(TimetableService::BASE_URL, $code)))
+                    ->setCode($code)
                     ->setName($name)
                     ->setCreatedAt(new \DateTimeImmutable())
             );

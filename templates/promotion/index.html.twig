@@ -6,6 +6,27 @@
             <div class="nk-block-head-content">
                 <h3 class="nk-block-title page-title">Promotions</h3>
             </div>
+            <div class="nk-block-head-content">
+                <div class="toggle-wrap nk-block-tools-toggle">
+                    <div class="toggle-expand-content" data-content="more-options">
+                        <ul class="nk-block-tools g-3">
+                            <li class="nk-block-tools-opt">
+                                <a href="#" class="btn btn-icon btn-primary d-md-none">
+                                    <em class="icon ni ni-plus"></em>
+                                </a>
+                                <a href="#" title="Ajouter"
+                                   data-create-button
+                                   data-url="{{ path('app_promotion_new') }}"
+                                   data-toggle="modal"
+                                   data-target="#modal" class="btn btn-primary d-none d-md-inline-flex">
+                                    <em class="icon ni ni-plus"></em><span>Ajouter</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                {{ include('_includes/_modal.html.twig', {id: 'modal', title: 'Ajouter Promotion'}) }}
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -36,6 +57,9 @@
                                data-target="#promotion_{{ item.id }}" class="btn btn-dim btn-primary d-none d-md-inline-flex">
                                 <span>Éditer</span>
                             </a>
+                            <button class="btn btn-sm btn-danger" data-delete-button data-target="tr" data-token="{{ csrf_token('delete_' ~ item.id) }}" data-url="{{ path('app_promotion_delete', {id: item.id}) }}">
+                                Supprimer
+                            </button>
                         </div>
                     </td>
                     {{ include('_includes/_modal.html.twig', {id: "promotion_#{ item.id }", title: 'Éditer Promotion'}) }}
