@@ -64,7 +64,8 @@ class CommandSubscriber implements EventSubscriberInterface
                 case '/horaire@EsisHoraireBot':
                 case '/horaire':
                     try {
-                        $file = $this->timetable->getTimetableDocument($event->getArgument());
+                        $promotion = $this->promotionService->getPromotionFromName($event->getArgument());
+                        $file = $this->timetable->getTimetableDocument($promotion->getName());
                         $this->api->sendDocument(
                             chatId: $chatId,
                             document: new CURLFile($file, 'application/pdf'),
@@ -108,7 +109,8 @@ class CommandSubscriber implements EventSubscriberInterface
                 case '/subscribe@EsisHoraireBot':
                 case '/subscribe':
                     try {
-                        $this->subscription->subscribe($event->getMessage(), $event->getArgument());
+                        $promotion = $this->promotionService->getPromotionFromName($event->getArgument());
+                        $this->subscription->subscribe($event->getMessage(), $promotion->getName());
                         $this->api->sendMessage(
                             chatId: $chatId,
                             text: "✔️ Abonnement effectué avec succès, 

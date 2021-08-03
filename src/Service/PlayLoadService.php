@@ -6,7 +6,6 @@ namespace App\Service;
 
 use App\Event\CommandEvent;
 use App\Event\ImplicitSubscriptionEvent;
-use App\Service\Timetable\PromotionService;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use TelegramBot\Api\Types\Update;
@@ -20,7 +19,6 @@ class PlayLoadService
 {
     public function __construct(
         private EventDispatcherInterface $dispatcher,
-        private PromotionService $promotionService
     ) {
     }
 
@@ -43,11 +41,8 @@ class PlayLoadService
                     }
                 }
             } else {
-                $promotion = $this->promotionService->getPromotionFromName($message->getText());
-                if (null !== $promotion) {
-                    $this->dispatcher->dispatch(new ImplicitSubscriptionEvent($message, $promotion->getName()));
-                    $this->dispatcher->dispatch(new CommandEvent($message, '/horaire', $promotion->getName()));
-                }
+                $this->dispatcher->dispatch(new ImplicitSubscriptionEvent($message, $message->getText()));
+                $this->dispatcher->dispatch(new CommandEvent($message, '/horaire', $message->getText()));
             }
         }
     }
