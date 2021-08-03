@@ -20,7 +20,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class SubscriptionType extends AbstractType
 {
-    public function __construct(private PromotionRepository $repository) {}
+    public function __construct(private PromotionRepository $repository)
+    {
+    }
 
     /**
      * @param FormBuilderInterface $builder
