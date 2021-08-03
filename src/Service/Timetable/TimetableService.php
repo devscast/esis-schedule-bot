@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 class TimetableService extends AbstractCachingService
 {
     public const CACHE_PATH = '/public/upload/horaire/';
-    public const BASE_URL = 'https://www.esisalama.com/assets/upload/horaire/pdf/HORAIRE%s.pdf';
+    public const BASE_URL = 'https://www.esisalama.com/assets/upload/horaire/pdf/HORAIRE %s.pdf';
 
     public function __construct(
         private PromotionService $promotionService,

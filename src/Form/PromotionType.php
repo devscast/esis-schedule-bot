@@ -32,7 +32,7 @@ class PromotionType extends AbstractType
             ->add('name', TextType::class, ['label' => 'Nom'])
             ->add('code', TextType::class, ['label' => 'Code'])
             ->add('link', UrlType::class, ['label' => 'Lien du document'])
-            ->add('file', FileType::class, ['label' => 'Fichier'])
+            ->add('file', UrlType::class, ['label' => 'Fichier'])
             ->add('updated_at', DateTimeType::class, [
                 'label' => 'Mise à jour',
                 'widget' => 'single_text'
