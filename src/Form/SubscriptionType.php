@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Entity\Subscription;
-use App\Service\Timetable\PromotionService;
+use App\Repository\PromotionRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -20,6 +20,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class SubscriptionType extends AbstractType
 {
+    public function __construct(private PromotionRepository $repository) {}
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -31,7 +33,7 @@ class SubscriptionType extends AbstractType
             ->add('name', TextType::class, ['label' => 'Nom'])
             ->add('chat_id', TextType::class, ['label' => 'Chat ID'])
             ->add('promotion', ChoiceType::class, [
-                'choices' => array_flip(PromotionService::PROMOTIONS_FRIENDLY_ABBR)
+                'choices' => $this->repository->getPromotionChoiceList()
             ])
             ->add('is_active', CheckboxType::class, ['label' => 'Abonnement actif']);
     }

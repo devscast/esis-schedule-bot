@@ -20,4 +20,15 @@ class PromotionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Promotion::class);
     }
+
+    public function getPromotionChoiceList(): array
+    {
+        $list = [];
+        $promotions = $this->findAll();
+
+        foreach ($promotions as $promotion) {
+            $list[$promotion->getName()] = $promotion->getCode();
+        }
+        return $list;
+    }
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\DataTransfert\BroadcastData;
-use App\Service\Timetable\PromotionService;
+use App\Repository\PromotionRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -21,6 +21,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class BroadcastType extends AbstractType
 {
+    public function __construct(private PromotionRepository $repository)
+    {
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -35,8 +39,8 @@ class BroadcastType extends AbstractType
                 'required' => false
             ])
             ->add('promotion', ChoiceType::class, [
-                'choices' => array_flip(PromotionService::PROMOTIONS_FRIENDLY_ABBR),
-                'required' => false,
+                'choices' => $this->repository->getPromotionChoiceList(),
+                'required' => false
             ])
             ->add('file', FileType::class, [
                 'label' => 'Document',
